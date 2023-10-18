@@ -1,0 +1,37 @@
+GET http://localhost:9080/ogrod/api/gardeners/
+
+####
+
+GET http://localhost:9080/ogrod/api/gardeners/62e5abed-076c-4f90-9a35-efa6eadd13fe
+
+####
+
+GET http://localhost:9080/ogrod/api/gardeners/62e5abed-076c-4f90-9a35-efa9eadd13fe
+
+####
+GET http://localhost:9080/ogrod/api/gardeners/423c3a58-8777-4baf-baa5-e230372d18f4/image
+
+>> bbb.png
+
+
+######
+POST http://localhost:9080/ogrod/api/gardeners/423c3a58-8777-4baf-baa5-e230372d18f4/image
+Content-Type: image/png
+
+< aaa.png
+
+######
+PUT http://localhost:9080/ogrod/api/gardeners/423c3a58-8777-4baf-baa5-e230372d18f4/image
+Content-Type: image/png
+
+< bbb.png
+
+#####
+PUT http://localhost:9080/ogrod/api/gardeners/423c3a58-8777-4baf-baa5-e230372d18f4/image
+Content-Type: image/png
+
+< aaa.png
+
+#####
+DELETE http://localhost:9080/ogrod/api/gardeners/423c3a58-8777-4baf-baa5-e230372d18f4/image
+
