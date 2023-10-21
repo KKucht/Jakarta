@@ -1,10 +1,8 @@
 package com.example.lab1.species;
 
 import com.example.lab1.dataStore.DataStore;
-import com.example.lab1.gardener.GardenerEntity;
 import com.example.lab1.repository.Repository;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 
 import java.util.HashSet;
 import java.util.Optional;

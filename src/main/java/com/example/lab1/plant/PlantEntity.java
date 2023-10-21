@@ -6,8 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -17,14 +16,23 @@ public class PlantEntity {
 
     private UUID id;
 
-    private double height;
-
     private String name;
 
-    private Date plantingDate;
+    private double height;
+
+    private LocalDateTime plantingDate;
 
     private GardenerEntity keeper;
 
     private SpeciesEntity species;
+
+    public PlantEntity(PlantEntity plant) {
+        this.id = plant.id;
+        this.height = plant.height;
+        this.name = plant.name;
+        this.plantingDate = plant.plantingDate;
+        this.keeper = plant.keeper;
+        this.species = plant.species;
+    }
 
 }

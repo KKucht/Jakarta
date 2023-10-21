@@ -4,6 +4,7 @@ import com.example.lab1.gardener.GardenerEntity;
 import com.example.lab1.species.SpeciesEntity;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class PlantModel {
 
     private double height;
 
-    private Date plantingDate;
+    private LocalDateTime plantingDate;
 
     private UUID keeper;
 

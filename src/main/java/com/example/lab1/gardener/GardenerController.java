@@ -1,8 +1,8 @@
 package com.example.lab1.gardener;
 
+import com.example.lab1.gardener.factory.GardenerFactory;
 import com.example.lab1.gardener.models.GardenerModel;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,23 +15,26 @@ public class GardenerController {
 
     private final GardenerService gardenerService;
 
+    private final GardenerFactory factory;
+
     private final Jsonb jsonb = JsonbBuilder.create();
 
     @Inject
-    public GardenerController(GardenerService gardenerService) {
+    public GardenerController(GardenerService gardenerService, GardenerFactory factory) {
         this.gardenerService = gardenerService;
+        this.factory = factory;
     }
 
     public void getGardeners(HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
-        response.getWriter().write(jsonb.toJson(gardenerService.getGardeners()));
+        response.getWriter().write(jsonb.toJson(factory.getModelFromEntity(gardenerService.getGardeners())));
     }
 
     public void getGardener(UUID uuid, HttpServletResponse response) throws IOException {
             GardenerModel gardener;
             response.setContentType("application/json");
             try {
-                gardener = gardenerService.getGardener(uuid);
+                gardener = factory.getModelFromEntity(gardenerService.getGardener(uuid));
             } catch (Exception e){
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Gardener with the specified UUID not found.");
                 return;

@@ -1,48 +1,46 @@
 package com.example.lab1.gardener;
 
-import com.example.lab1.gardener.factory.GardenerFactory;
-import com.example.lab1.gardener.models.GardenerModel;
-import com.example.lab1.gardener.models.GardenersModel;
-import com.example.lab1.gardener.models.NewGardenerModel;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
+@ApplicationScoped
+@NoArgsConstructor(force = true)
 public class GardenerService {
 
     private final GardenerRepository gardenerRepository;
 
     private final ImageService imageService;
 
-    private final GardenerFactory factory;
-
     @Inject
-    public GardenerService(GardenerRepository gardenerRepository, ImageService imageService, GardenerFactory factory) {
+    public GardenerService(GardenerRepository gardenerRepository, ImageService imageService) {
         this.gardenerRepository = gardenerRepository;
         this.imageService = imageService;
-        this.factory = factory;
     }
 
-    public void createGardener(NewGardenerModel model) throws IOException {
-        if (gardenerRepository.find(model.getId()).isPresent()){
+    public void createGardener(GardenerEntity entity) throws IOException {
+        if (gardenerRepository.find(entity.getId()).isPresent()){
             throw new IOException("Gardener with the specified UUID exits");
         }
-        gardenerRepository.create(factory.getEntityFromModel(model));
+        gardenerRepository.create(entity);
     }
 
-    public GardenerModel getGardener(UUID uuid) throws IOException {
+    public GardenerEntity getGardener(UUID uuid) throws IOException {
         Optional<GardenerEntity> entity = gardenerRepository.find(uuid);
         if (entity.isEmpty()) {
             throw new IOException("Gardener with the specified UUID not found");
         }
-        return factory.getModelFromEntity(entity.get());
+        return entity.get();
     }
 
-    public GardenersModel getGardeners() {
-        return factory.getModelFromEntity(gardenerRepository.findAll());
+    public Set<GardenerEntity> getGardeners() {
+        return gardenerRepository.findAll();
     }
 
     public byte[] getGardenerImage(UUID uuid) throws IOException {

@@ -2,6 +2,7 @@ package com.example.lab1.plant.models;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ public class NewPlantModel {
 
     private double height;
 
-    private Date plantingDate;
+    private LocalDateTime plantingDate;
 
     private UUID species;
 

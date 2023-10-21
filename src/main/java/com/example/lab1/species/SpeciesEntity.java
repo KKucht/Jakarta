@@ -26,4 +26,13 @@ public class SpeciesEntity {
 
     private List<PlantEntity> plants;
 
+    public SpeciesEntity(SpeciesEntity species) {
+        this.id = species.id;
+        this.name = species.getName();
+        this.plants = new ArrayList<>();
+        this.plants.addAll(species.getPlants());
+        this.type = species.getType();
+        this.price = species.getPrice();
+    }
+
 }

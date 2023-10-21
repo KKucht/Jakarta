@@ -14,6 +14,6 @@ import java.util.List;
 @EqualsAndHashCode
 public class PlantsModel {
 
-    private List<SimplePlantModel> gardeners = new ArrayList<>();
+    private List<SimplePlantModel> plants = new ArrayList<>();
 
 }

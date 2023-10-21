@@ -1,6 +1,8 @@
 package com.example.lab1.controller;
 
 import com.example.lab1.gardener.GardenerController;
+import com.example.lab1.plant.PlantController;
+import com.example.lab1.species.SpeciesController;
 import jakarta.inject.Inject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,9 +18,16 @@ import java.util.regex.Pattern;
 public class MainController extends HttpServlet {
     private final GardenerController gardenerController;
 
+    private final PlantController plantController;
+
+    private final SpeciesController speciesController;
+
     @Inject
-    public MainController(GardenerController gardenerController) {
+    public MainController(GardenerController gardenerController, PlantController plantController,
+                          SpeciesController speciesController) {
         this.gardenerController = gardenerController;
+        this.plantController = plantController;
+        this.speciesController = speciesController;
     }
 
     public static final class Patterns {
@@ -27,7 +36,15 @@ public class MainController extends HttpServlet {
 
         public static final Pattern GARDENERS = Pattern.compile("/gardeners/?");
 
+        public static final Pattern PLANTS = Pattern.compile("/plants/?");
+
+        public static final Pattern ALL_SPECIES = Pattern.compile("/species/?");
+
         public static final Pattern GARDENER = Pattern.compile("/gardeners/(%s)".formatted(UUID.pattern()));
+
+        public static final Pattern PLANT = Pattern.compile("/plants/(%s)".formatted(UUID.pattern()));
+
+        public static final Pattern SPECIES = Pattern.compile("/species/(%s)".formatted(UUID.pattern()));
 
         public static final Pattern GARDENER_IMAGE = Pattern.compile("/gardeners/(%s)/image".formatted(UUID.pattern()));
     }
@@ -60,6 +77,24 @@ public class MainController extends HttpServlet {
             else if (path.matches(Patterns.GARDENER_IMAGE.pattern())) {
                 UUID uuid = extractUuid(pathURI);
                 gardenerController.getGardenerImage(uuid, response);
+                return;
+            }
+            else if (path.matches(Patterns.PLANT.pattern())) {
+                UUID uuid = extractUuid(pathURI);
+                plantController.getPlant(uuid, response);
+                return;
+            }
+            else if (path.matches(Patterns.PLANTS.pattern())) {
+                plantController.getPlants(response);
+                return;
+            }
+            else if (path.matches(Patterns.SPECIES.pattern())) {
+                UUID uuid = extractUuid(pathURI);
+                speciesController.getSpecies(uuid, response);
+                return;
+            }
+            else if (path.matches(Patterns.ALL_SPECIES.pattern())) {
+                speciesController.getAllSpecies(response);
                 return;
             }
         }
