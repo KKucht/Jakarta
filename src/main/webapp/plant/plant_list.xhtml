@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                template="/WEB-INF/template/main.xhtml">
+    <f:metadata>
+        <f:viewParam name="species-id" value="#{plantsView.speciesId}"/>
+        <f:viewAction action="#{plantsView.init()}"/>
+    </f:metadata>
+
+    <ui:define name="content">
+
+        <article class="text--justified">
+            <header>
+                <h2>Motorcycles</h2>
+                <div><h:outputText value="#{plantsView.speciesDescription}"/></div>
+            </header>
+
+            <h:dataTable value="#{plantsView.plantsModel.plants}" var="plant"
+                         styleClass="table align-middle mb-0 bg-white" headerClass="bg-light">
+                <h:column>
+                    <f:facet name="header">Name</f:facet>
+                    <h:outputText value="#{plant.name}"/>
+                </h:column>
+
+<!--                <h:column>-->
+<!--                    <f:facet name="header">Price</f:facet>-->
+<!--                    <h:outputText value="#{motorcycle.price}"/>-->
+<!--                </h:column>-->
+
+<!--                <h:column>-->
+<!--                    <f:facet name="header">View</f:facet>-->
+<!--                    <h:link outcome="/motorcycle/motorcycle_view.xhtml" value="View">-->
+<!--                        <f:param name="id" value="#{motorcycle.id}"/>-->
+<!--                    </h:link>-->
+<!--                </h:column>-->
+
+<!--                <h:column>-->
+<!--                    <f:facet name="header">Edit</f:facet>-->
+<!--                    <h:link outcome="/motorcycle/motorcycle_edit.xhtml" value="Edit">-->
+<!--                        <f:param name="id" value="#{motorcycle.id}"/>-->
+<!--                    </h:link>-->
+<!--                </h:column>-->
+
+<!--                <h:column>-->
+<!--                    <f:facet name="header">Delete</f:facet>-->
+<!--                    <h:form>-->
+<!--                        <h:commandButton styleClass="btn" value="Delete"-->
+<!--                                         action="#{motorcycleList.deleteAction(motorcycle)}"/>-->
+<!--                    </h:form>-->
+<!--                </h:column>-->
+
+<!--                <f:facet name="footer">-->
+<!--                    <h:button styleClass="btn" outcome="/motorcycle/motorcycle_create.xhtml"-->
+<!--                              value="Create new motorcycle"/>-->
+<!--                </f:facet>-->
+            </h:dataTable>
+        </article>
+    </ui:define>
+
+</ui:composition>

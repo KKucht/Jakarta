@@ -39,4 +39,11 @@ public class SpeciesService {
         return speciesRepository.findAll();
     }
 
+    public void deleteSpecies(UUID uuid) throws IOException {
+//        if (speciesRepository.find(entity.getId()).isPresent()){
+//            throw new IOException("Species with the specified UUID exits");
+//        }
+//        speciesRepository.create(entity);
+    }
+
 }

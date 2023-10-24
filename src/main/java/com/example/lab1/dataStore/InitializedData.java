@@ -66,9 +66,9 @@ public class InitializedData {
         ArrayList<SpeciesEntity> species = new ArrayList<>();
         species.add(new SpeciesEntity(UUID.fromString("cc15811e-6f7e-11ee-b962-0242ac120002"), "Brzoza", Type.TREE,
                 50, new ArrayList<>()));
-        species.add(new SpeciesEntity(UUID.fromString("405bdf00-6f7f-11ee-b962-0242ac120002"), "Dąb", Type.TREE,
+        species.add(new SpeciesEntity(UUID.fromString("405bdf00-6f7f-11ee-b962-0242ac120002"), "Dab", Type.TREE,
                 78, new ArrayList<>()));
-        species.add(new SpeciesEntity(UUID.fromString("4fe18e8e-6f7f-11ee-b962-0242ac120002"), "Róża", Type.FLOWER,
+        species.add(new SpeciesEntity(UUID.fromString("4fe18e8e-6f7f-11ee-b962-0242ac120002"), "Roza", Type.FLOWER,
                 150, new ArrayList<>()));
 
         for (SpeciesEntity sp : species){
