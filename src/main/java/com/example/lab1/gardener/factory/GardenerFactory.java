@@ -9,12 +9,14 @@ import com.example.lab1.gardener.models.GardenersModel;
 import com.example.lab1.gardener.models.NewGardenerModel;
 import com.example.lab1.gardener.models.SimpleGardenerModel;
 import com.example.lab1.plant.PlantEntity;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@ApplicationScoped
 public class GardenerFactory implements GetGardenerModelFromEntity, GetGardenersModelFromEntity, GetEntityFromNewGardenerModel {
 
     @Override

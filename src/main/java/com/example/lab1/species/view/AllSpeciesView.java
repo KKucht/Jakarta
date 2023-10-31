@@ -3,16 +3,18 @@ package com.example.lab1.species.view;
 import com.example.lab1.species.SpeciesService;
 import com.example.lab1.species.factory.SpeciesFactory;
 import com.example.lab1.species.models.AllSpeciesModel;
-import com.example.lab1.species.models.SpeciesModel;
+import com.example.lab1.species.models.SimpleSpeciesModel;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.io.IOException;
+import java.io.Serializable;
 
-@RequestScoped
+@ViewScoped
 @Named
-public class AllSpeciesView {
+public class AllSpeciesView implements Serializable {
     private final SpeciesService service;
 
     private AllSpeciesModel model;
@@ -32,7 +34,7 @@ public class AllSpeciesView {
         return model;
     }
 
-    public String deleteSpecies(SpeciesModel model) throws IOException {
+    public String deleteSpecies(SimpleSpeciesModel model) throws IOException {
         service.deleteSpecies(model.getId());
         return "species_list?faces-redirect=true";
     }

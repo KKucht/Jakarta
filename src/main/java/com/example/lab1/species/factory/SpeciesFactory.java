@@ -9,11 +9,13 @@ import com.example.lab1.species.models.AllSpeciesModel;
 import com.example.lab1.species.models.NewSpeciesModel;
 import com.example.lab1.species.models.SimpleSpeciesModel;
 import com.example.lab1.species.models.SpeciesModel;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@ApplicationScoped
 public class SpeciesFactory implements GetSpeciesModelFromEntity, GetAllSpeciesModelFromEntity, GetEntityFromNewSpeciesModel {
 
     @Override

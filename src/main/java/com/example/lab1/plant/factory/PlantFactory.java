@@ -2,17 +2,20 @@ package com.example.lab1.plant.factory;
 
 import com.example.lab1.plant.PlantEntity;
 import com.example.lab1.plant.factory.api.GetEntityFromNewPlantModel;
+import com.example.lab1.plant.factory.api.GetEntityFromPlantModel;
 import com.example.lab1.plant.factory.api.GetPlantModelFromEntity;
 import com.example.lab1.plant.factory.api.GetPlantsModelFromEntity;
 import com.example.lab1.plant.models.NewPlantModel;
 import com.example.lab1.plant.models.PlantModel;
 import com.example.lab1.plant.models.PlantsModel;
 import com.example.lab1.plant.models.SimplePlantModel;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class PlantFactory implements GetEntityFromNewPlantModel, GetPlantModelFromEntity, GetPlantsModelFromEntity {
+@ApplicationScoped
+public class PlantFactory implements GetEntityFromPlantModel, GetEntityFromNewPlantModel, GetPlantModelFromEntity, GetPlantsModelFromEntity {
     @Override
     public PlantEntity getEntityFromModel(NewPlantModel m) {
         return new PlantEntity(
@@ -40,5 +43,15 @@ public class PlantFactory implements GetEntityFromNewPlantModel, GetPlantModelFr
                 .stream()
                 .map(en -> new SimplePlantModel(en.getId(), en.getName()))
                 .collect(Collectors.toList()));
+    }
+
+    @Override
+    public PlantEntity getEntityFromModel(PlantModel m) {
+        return new PlantEntity(
+                m.getId(),
+                m.getName(),
+                m.getHeight(),
+                m.getPlantingDate(),
+                null, null);
     }
 }

@@ -13,7 +13,7 @@
 
         <article class="text--justified">
             <header>
-                <h2>Motorcycles</h2>
+                <h2>Plants</h2>
                 <div><h:outputText value="#{plantsView.speciesDescription}"/></div>
             </header>
 
@@ -24,37 +24,34 @@
                     <h:outputText value="#{plant.name}"/>
                 </h:column>
 
-<!--                <h:column>-->
-<!--                    <f:facet name="header">Price</f:facet>-->
-<!--                    <h:outputText value="#{motorcycle.price}"/>-->
-<!--                </h:column>-->
+                <h:column>
+                    <f:facet name="header">View</f:facet>
+                    <h:link outcome="/plant/plant.xhtml" value="View">
+                        <f:param name="id" value="#{plant.id}"/>
+                    </h:link>
+                </h:column>
 
-<!--                <h:column>-->
-<!--                    <f:facet name="header">View</f:facet>-->
-<!--                    <h:link outcome="/motorcycle/motorcycle_view.xhtml" value="View">-->
-<!--                        <f:param name="id" value="#{motorcycle.id}"/>-->
-<!--                    </h:link>-->
-<!--                </h:column>-->
+                <h:column>
+                    <f:facet name="header">Delete</f:facet>
+                    <h:form>
+                        <h:commandButton styleClass="btn" value="Delete"
+                                         action="#{plantsView.deletePlant(plant)}"/>
+                    </h:form>
+                </h:column>
 
-<!--                <h:column>-->
-<!--                    <f:facet name="header">Edit</f:facet>-->
-<!--                    <h:link outcome="/motorcycle/motorcycle_edit.xhtml" value="Edit">-->
-<!--                        <f:param name="id" value="#{motorcycle.id}"/>-->
-<!--                    </h:link>-->
-<!--                </h:column>-->
+                <h:column>
+                    <f:facet name="header">Edit</f:facet>
+                    <h:link outcome="/plant/plant_edit.xhtml" value="Edit">
+                        <f:param name="id" value="#{plant.id}"/>
+                    </h:link>
+                </h:column>
 
-<!--                <h:column>-->
-<!--                    <f:facet name="header">Delete</f:facet>-->
-<!--                    <h:form>-->
-<!--                        <h:commandButton styleClass="btn" value="Delete"-->
-<!--                                         action="#{motorcycleList.deleteAction(motorcycle)}"/>-->
-<!--                    </h:form>-->
-<!--                </h:column>-->
 
-<!--                <f:facet name="footer">-->
-<!--                    <h:button styleClass="btn" outcome="/motorcycle/motorcycle_create.xhtml"-->
-<!--                              value="Create new motorcycle"/>-->
-<!--                </f:facet>-->
+
+                <f:facet name="footer">
+                    <h:button styleClass="btn" outcome="/plant/plant_create.xhtml"
+                              value="Create new plant" />
+                </f:facet>
             </h:dataTable>
         </article>
     </ui:define>

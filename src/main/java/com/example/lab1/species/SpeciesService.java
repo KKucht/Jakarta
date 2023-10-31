@@ -1,5 +1,7 @@
 package com.example.lab1.species;
 
+import com.example.lab1.plant.PlantEntity;
+import com.example.lab1.plant.PlantService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import lombok.NoArgsConstructor;
@@ -15,9 +17,12 @@ public class SpeciesService {
 
     private final SpeciesRepository speciesRepository;
 
+    private final PlantService plantService;
+
     @Inject
-    public SpeciesService(SpeciesRepository speciesRepository) {
+    public SpeciesService(SpeciesRepository speciesRepository, PlantService plantService) {
         this.speciesRepository = speciesRepository;
+        this.plantService = plantService;
     }
 
     public void createSpecies(SpeciesEntity entity) throws IOException {
@@ -40,10 +45,14 @@ public class SpeciesService {
     }
 
     public void deleteSpecies(UUID uuid) throws IOException {
-//        if (speciesRepository.find(entity.getId()).isPresent()){
-//            throw new IOException("Species with the specified UUID exits");
-//        }
-//        speciesRepository.create(entity);
+        Optional<SpeciesEntity> entity = speciesRepository.find(uuid);
+        if (entity.isEmpty()){
+            throw new IOException("Species with the specified not UUID exits");
+        }
+        for (PlantEntity var : entity.get().getPlants()){
+            plantService.deletePlant(var.getId());
+        }
+        speciesRepository.delete(uuid);
     }
 
 }

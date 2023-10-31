@@ -1,5 +1,6 @@
 package com.example.lab1.plant;
 
+import com.example.lab1.gardener.GardenerRepository;
 import com.example.lab1.species.SpeciesEntity;
 import com.example.lab1.species.SpeciesRepository;
 import com.example.lab1.species.SpeciesService;
@@ -20,13 +21,16 @@ public class PlantService {
 
     private final SpeciesRepository speciesRepository;
 
+    private final GardenerRepository gardenerRepository;
+
     private final SpeciesService speciesService;
 
     @Inject
-    public PlantService(PlantRepository plantRepository, SpeciesService speciesService, SpeciesRepository speciesRepository) {
+    public PlantService(GardenerRepository gardenerRepository, PlantRepository plantRepository, SpeciesService speciesService, SpeciesRepository speciesRepository) {
         this.plantRepository = plantRepository;
         this.speciesService = speciesService;
         this.speciesRepository = speciesRepository;
+        this.gardenerRepository = gardenerRepository;
     }
 
     public void createPlant(PlantEntity entity, UUID speciesId) throws IOException {
@@ -50,5 +54,22 @@ public class PlantService {
 
     public Set<PlantEntity> getPlants() {
         return plantRepository.findAll();
+    }
+
+    public void deletePlant(UUID uuid) throws IOException {
+        if (plantRepository.find(uuid).isEmpty()){
+            throw new IOException("Plant with the specified not UUID exits");
+        }
+        plantRepository.delete(uuid);
+    }
+
+    public void updatePlant(PlantEntity entity, UUID keeper, UUID species) {
+        if (keeper != null){
+            entity.setKeeper(gardenerRepository.find(keeper).get());
+        }
+        if (species != null){
+            entity.setSpecies(speciesRepository.find(species).get());
+        }
+        plantRepository.update(entity.getId(), entity);
     }
 }

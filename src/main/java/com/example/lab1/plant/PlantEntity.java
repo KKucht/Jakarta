@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
@@ -20,7 +20,7 @@ public class PlantEntity {
 
     private double height;
 
-    private LocalDateTime plantingDate;
+    private LocalDate plantingDate;
 
     private GardenerEntity keeper;
 

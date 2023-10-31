@@ -6,7 +6,7 @@ GET http://localhost:9080/ogrod/api/species/
 
 ####
 
-GET http://localhost:9080/ogrod/api/plants/2f7d53c4-6f81-11ee-b962-0242ac120002
+GET http://localhost:9080/ogrod/api/plants/
 
 ####
 

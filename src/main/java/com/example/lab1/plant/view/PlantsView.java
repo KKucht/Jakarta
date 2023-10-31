@@ -3,28 +3,32 @@ package com.example.lab1.plant.view;
 import com.example.lab1.plant.PlantService;
 import com.example.lab1.plant.factory.PlantFactory;
 import com.example.lab1.plant.models.PlantsModel;
+import com.example.lab1.plant.models.SimplePlantModel;
 import com.example.lab1.species.SpeciesService;
 import com.example.lab1.species.factory.SpeciesFactory;
+import com.example.lab1.species.models.SimpleSpeciesModel;
 import com.example.lab1.species.models.SpeciesModel;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.IOException;
-import java.util.Optional;
+import java.io.Serializable;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-@RequestScoped
+@ViewScoped
 @Named
-public class PlantsView {
+public class PlantsView implements Serializable {
 
     private final PlantService plantService;
 
     private final SpeciesService speciesService;
 
-    private PlantsModel model;
+    private PlantsModel plantsModel;
 
     private final PlantFactory plantFactory;
 
@@ -32,7 +36,7 @@ public class PlantsView {
 
     @Getter
     @Setter
-    private String speciesId;
+    private UUID speciesId;
 
     @Getter
     @Setter
@@ -48,10 +52,15 @@ public class PlantsView {
     }
 
     public PlantsModel getPlantsModel() {
-        if (model == null) {
-            model = plantFactory.getModelFromEntity(plantService.getPlants());
+        if (plantsModel == null) {
+            if (speciesId != null)
+                plantsModel = plantFactory.getModelFromEntity(plantService.getPlants().stream()
+                    .filter(el -> speciesId.equals(el.getSpecies().getId()))
+                    .collect(Collectors.toSet()));
+            else
+                plantsModel = plantFactory.getModelFromEntity(plantService.getPlants());
         }
-        return model;
+        return plantsModel;
     }
 
     public void init() {
@@ -59,12 +68,22 @@ public class PlantsView {
             speciesDescription = "All plants";
         } else {
             try{
-                SpeciesModel speciesModel = speciesFactory.getModelFromEntity(speciesService.getSpecies(UUID.fromString(speciesId)));
+                SpeciesModel speciesModel = speciesFactory.getModelFromEntity(speciesService.getSpecies(speciesId));
                 speciesDescription = speciesModel.getName() + " is " + speciesModel.getType() +". One costs " + speciesModel.getPrice() + " OJROS";
+
             }
             catch (Exception e){
                 speciesDescription = "Error: " + e.getMessage();
             }
+        }
+    }
+
+    public String deletePlant(SimplePlantModel model) throws IOException {
+        plantService.deletePlant(model.getId());
+        if (speciesId == null) {
+            return "plant_list?faces-redirect=true";
+        } else {
+            return "plant_list?faces-redirect=true&species-id=" + speciesId;
         }
     }
 
