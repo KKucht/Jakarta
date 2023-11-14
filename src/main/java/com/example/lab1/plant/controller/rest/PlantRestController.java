@@ -7,7 +7,6 @@ import com.example.lab1.plant.models.rest.GetPlantResponse;
 import com.example.lab1.plant.models.rest.GetPlantsResponse;
 import com.example.lab1.plant.models.rest.PatchPlantRequest;
 import com.example.lab1.plant.models.rest.PutPlantRequest;
-import com.example.lab1.species.controller.api.SpeciesController;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.BadRequestException;
@@ -79,7 +78,7 @@ public class PlantRestController implements PlantController{
                     .build(id)
                     .toString());
             throw new WebApplicationException(Response.Status.CREATED);
-        } catch (Exception e) {
+        } catch (IOException e) {
             if (e.getMessage().equals("Plant with the specified UUID exits")){
                 try{
                     service.updatePlant(factory.getUpdatedEntity(service.getPlant(id), request), null, speciesId);
@@ -96,7 +95,7 @@ public class PlantRestController implements PlantController{
     public void patchPlant(UUID speciesId, UUID id, PatchPlantRequest request) {
         try {
             service.updatePlant(factory.getUpdatedEntity(service.getPlant(id) , request), null, speciesId);
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new BadRequestException();
         }
     }

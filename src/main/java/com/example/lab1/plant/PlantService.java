@@ -80,9 +80,13 @@ public class PlantService {
             throw new IOException("Plant with the specified not UUID exits");
         }
         if (keeper != null){
+            if (gardenerRepository.find(keeper).isEmpty())
+                throw new IOException("Gardener with the specified UUID not found");
             entity.setKeeper(gardenerRepository.find(keeper).get());
         }
         if (species != null){
+            if (speciesRepository.find(species).isEmpty())
+                throw new IOException("Species with the specified UUID not found");
             entity.setSpecies(speciesRepository.find(species).get());
         }
         plantRepository.update(entity.getId(), entity);
