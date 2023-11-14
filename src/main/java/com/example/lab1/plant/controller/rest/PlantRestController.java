@@ -79,7 +79,7 @@ public class PlantRestController implements PlantController{
                     .build(id)
                     .toString());
             throw new WebApplicationException(Response.Status.CREATED);
-        } catch (IOException e) {
+        } catch (Exception e) {
             if (e.getMessage().equals("Plant with the specified UUID exits")){
                 try{
                     service.updatePlant(factory.getUpdatedEntity(service.getPlant(id), request), null, speciesId);
@@ -96,7 +96,7 @@ public class PlantRestController implements PlantController{
     public void patchPlant(UUID speciesId, UUID id, PatchPlantRequest request) {
         try {
             service.updatePlant(factory.getUpdatedEntity(service.getPlant(id) , request), null, speciesId);
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new BadRequestException();
         }
     }
