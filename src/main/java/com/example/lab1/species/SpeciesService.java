@@ -55,4 +55,11 @@ public class SpeciesService {
         speciesRepository.delete(uuid);
     }
 
+    public void updateSpecies(SpeciesEntity entity) throws IOException {
+        if (speciesRepository.find(entity.getId()).isEmpty()){
+            throw new IOException("Species with the specified not UUID exits");
+        }
+        speciesRepository.update(entity.getId(), entity);
+    }
+
 }

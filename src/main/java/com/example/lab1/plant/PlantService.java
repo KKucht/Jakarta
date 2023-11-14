@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 @NoArgsConstructor(force = true)
@@ -37,6 +38,8 @@ public class PlantService {
         if (plantRepository.find(entity.getId()).isPresent()){
             throw new IOException("Plant with the specified UUID exits");
         }
+        if (speciesRepository.find(speciesId).isEmpty())
+            throw new IOException("Species with the specified UUID not found");
         SpeciesEntity entity1 = speciesService.getSpecies(speciesId);
         entity.setSpecies(entity1);
         entity1.getPlants().add(entity);
@@ -56,6 +59,15 @@ public class PlantService {
         return plantRepository.findAll();
     }
 
+    public Set<PlantEntity> getSpeciesPlants(UUID speciesID) throws IOException {
+        if (speciesRepository.find(speciesID).isEmpty()){
+            throw new IOException("Species with the specified UUID not found");
+        }
+        return plantRepository.findAll().stream()
+                .filter(entity -> entity.getSpecies().getId().equals(speciesID))
+                .collect(Collectors.toSet());
+    }
+
     public void deletePlant(UUID uuid) throws IOException {
         if (plantRepository.find(uuid).isEmpty()){
             throw new IOException("Plant with the specified not UUID exits");
@@ -63,7 +75,10 @@ public class PlantService {
         plantRepository.delete(uuid);
     }
 
-    public void updatePlant(PlantEntity entity, UUID keeper, UUID species) {
+    public void updatePlant(PlantEntity entity, UUID keeper, UUID species) throws IOException {
+        if (plantRepository.find(entity.getId()).isEmpty()){
+            throw new IOException("Plant with the specified not UUID exits");
+        }
         if (keeper != null){
             entity.setKeeper(gardenerRepository.find(keeper).get());
         }

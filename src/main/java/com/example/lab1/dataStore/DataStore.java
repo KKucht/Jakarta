@@ -5,10 +5,12 @@ import com.example.lab1.plant.PlantEntity;
 import com.example.lab1.species.SpeciesEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.Getter;
+import lombok.extern.java.Log;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Log
 @Getter
 @ApplicationScoped
 public class DataStore {

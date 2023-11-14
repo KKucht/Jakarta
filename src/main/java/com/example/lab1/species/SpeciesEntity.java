@@ -1,11 +1,8 @@
 package com.example.lab1.species;
 
 
-import com.example.lab1.gardener.GardenerEntity;
 import com.example.lab1.plant.PlantEntity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +10,11 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@ToString
+@EqualsAndHashCode
 public class SpeciesEntity {
 
     private UUID id;
@@ -24,6 +25,7 @@ public class SpeciesEntity {
 
     private double price;
 
+    @EqualsAndHashCode.Exclude
     private List<PlantEntity> plants;
 
     public SpeciesEntity(SpeciesEntity species) {

@@ -45,9 +45,13 @@ public class PlantEditView implements Serializable {
    }
 
     public String saveAction() {
-        service.updatePlant(factory.getEntityFromModel(model),model.getKeeper(),model.getSpecies());
-        String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-        return viewId + "?faces-redirect=true&includeViewParams=true";
+        try{
+            service.updatePlant(factory.getEntityFromModel(model),model.getKeeper(),model.getSpecies());
+            String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+            return viewId + "?faces-redirect=true&includeViewParams=true";
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

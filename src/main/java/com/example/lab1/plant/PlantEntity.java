@@ -2,16 +2,18 @@ package com.example.lab1.plant;
 
 import com.example.lab1.gardener.GardenerEntity;
 import com.example.lab1.species.SpeciesEntity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@ToString
+@EqualsAndHashCode
 public class PlantEntity {
 
     private UUID id;
@@ -22,8 +24,10 @@ public class PlantEntity {
 
     private LocalDate plantingDate;
 
+    @EqualsAndHashCode.Exclude
     private GardenerEntity keeper;
 
+    @EqualsAndHashCode.Exclude
     private SpeciesEntity species;
 
     public PlantEntity(PlantEntity plant) {
