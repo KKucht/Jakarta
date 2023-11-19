@@ -12,7 +12,8 @@ import com.example.lab1.species.models.rest.PutSpeciesRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.List;
+import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -20,7 +21,7 @@ public class SpeciesFactory implements EntityToGetSpeciesResponse, EntityToGetAl
         PutSpeciesRequestToEntity {
 
     @Override
-    public GetAllSpeciesResponse getResponse(Set<SpeciesEntity> e) {
+    public GetAllSpeciesResponse getResponse(List<SpeciesEntity> e) {
         return GetAllSpeciesResponse.builder()
                 .allSpecies(e.stream()
                         .map(species -> GetAllSpeciesResponse.Species.builder()

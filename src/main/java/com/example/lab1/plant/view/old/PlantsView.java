@@ -54,7 +54,7 @@ public class PlantsView implements Serializable {
             if (speciesId != null)
                 plantsModel = plantFactory.getModelFromEntity(plantService.getPlants().stream()
                     .filter(el -> speciesId.equals(el.getSpecies().getId()))
-                    .collect(Collectors.toSet()));
+                    .collect(Collectors.toList()));
             else
                 plantsModel = plantFactory.getModelFromEntity(plantService.getPlants());
         }

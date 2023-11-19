@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -39,7 +40,7 @@ public class GardenerService {
         return entity.get();
     }
 
-    public Set<GardenerEntity> getGardeners() {
+    public List<GardenerEntity> getGardeners() {
         return gardenerRepository.findAll();
     }
 

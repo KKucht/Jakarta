@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.util.Optional;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -55,17 +55,17 @@ public class PlantService {
         return entity.get();
     }
 
-    public Set<PlantEntity> getPlants() {
+    public List<PlantEntity> getPlants() {
         return plantRepository.findAll();
     }
 
-    public Set<PlantEntity> getSpeciesPlants(UUID speciesID) throws IOException {
+    public List<PlantEntity> getSpeciesPlants(UUID speciesID) throws IOException {
         if (speciesRepository.find(speciesID).isEmpty()){
             throw new IOException("Species with the specified UUID not found");
         }
         return plantRepository.findAll().stream()
                 .filter(entity -> entity.getSpecies().getId().equals(speciesID))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     public void deletePlant(UUID uuid) throws IOException {

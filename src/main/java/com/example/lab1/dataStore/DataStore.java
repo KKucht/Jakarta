@@ -7,18 +7,18 @@ import jakarta.enterprise.context.ApplicationScoped;
 import lombok.Getter;
 import lombok.extern.java.Log;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Log
 @Getter
 @ApplicationScoped
 public class DataStore {
 
-    private final Set<GardenerEntity> gardeners = new HashSet<>();
+    private final List<GardenerEntity> gardeners = new ArrayList<>();
 
-    private final Set<PlantEntity> plants = new HashSet<>();
+    private final List<PlantEntity> plants = new ArrayList<>();
 
-    private final Set<SpeciesEntity> species = new HashSet<>();
+    private final List<SpeciesEntity> species = new ArrayList<>();
 
 }

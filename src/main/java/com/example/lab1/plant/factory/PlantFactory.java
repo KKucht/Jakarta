@@ -15,7 +15,7 @@ import com.example.lab1.species.models.rest.GetSpeciesResponse;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -36,7 +36,7 @@ public class PlantFactory implements EntityToGetPlantResponse, EntityToGetPlants
     }
 
     @Override
-    public GetPlantsResponse getResponse(Set<PlantEntity> e) {
+    public GetPlantsResponse getResponse(List<PlantEntity> e) {
         return GetPlantsResponse.builder()
                 .plants(e.stream()
                         .map(plant -> GetPlantsResponse.Plant.builder()

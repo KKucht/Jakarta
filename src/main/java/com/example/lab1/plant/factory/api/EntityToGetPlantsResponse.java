@@ -3,9 +3,9 @@ package com.example.lab1.plant.factory.api;
 import com.example.lab1.plant.PlantEntity;
 import com.example.lab1.plant.models.rest.GetPlantsResponse;
 
-import java.util.Set;
+import java.util.List;
 
 public interface EntityToGetPlantsResponse {
 
-    GetPlantsResponse getResponse(Set<PlantEntity> e);
+    GetPlantsResponse getResponse(List<PlantEntity> e);
 }

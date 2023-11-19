@@ -12,7 +12,7 @@ import com.example.lab1.plant.PlantEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -40,7 +40,7 @@ public class GardenerFactory implements GetGardenerModelFromEntity, GetGardeners
     }
 
     @Override
-    public GardenersModel getModelFromEntity(Set<GardenerEntity> e) {
+    public GardenersModel getModelFromEntity(List<GardenerEntity> e) {
         return new GardenersModel(e
                 .stream()
                 .map(en -> new SimpleGardenerModel(en.getId(), en.getName()))

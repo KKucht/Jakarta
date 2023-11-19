@@ -1,13 +1,13 @@
 package com.example.lab1.repository;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface Repository<E, K> {
 
     Optional<E> find(K id);
 
-    Set<E> findAll();
+    List<E> findAll();
 
     void create(E entity);
 

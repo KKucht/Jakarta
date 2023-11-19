@@ -11,7 +11,7 @@ import com.example.lab1.plant.models.old.PlantsModel;
 import com.example.lab1.plant.models.old.SimplePlantModel;
 import jakarta.enterprise.context.ApplicationScoped;
 
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -38,7 +38,7 @@ public class PlantFactory implements GetEntityFromPlantModel, GetEntityFromNewPl
     }
 
     @Override
-    public PlantsModel getModelFromEntity(Set<PlantEntity> e) {
+    public PlantsModel getModelFromEntity(List<PlantEntity> e) {
         return new PlantsModel(e
                 .stream()
                 .map(en -> new SimplePlantModel(en.getId(), en.getName()))

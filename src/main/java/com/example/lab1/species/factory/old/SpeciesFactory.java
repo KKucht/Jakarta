@@ -12,7 +12,8 @@ import com.example.lab1.species.models.old.SpeciesModel;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.List;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -42,7 +43,7 @@ public class SpeciesFactory implements GetSpeciesModelFromEntity, GetAllSpeciesM
     }
 
     @Override
-    public AllSpeciesModel getModelFromEntity(Set<SpeciesEntity> e) {
+    public AllSpeciesModel getModelFromEntity(List<SpeciesEntity> e) {
         return new AllSpeciesModel(e
                 .stream()
                 .map(en -> new SimpleSpeciesModel(en.getId(), en.getName(), en.getType()))

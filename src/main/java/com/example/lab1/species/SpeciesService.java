@@ -7,8 +7,9 @@ import jakarta.inject.Inject;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -40,7 +41,7 @@ public class SpeciesService {
         return entity.get();
     }
 
-    public Set<SpeciesEntity> getAllSpecies() {
+    public List<SpeciesEntity> getAllSpecies() {
         return speciesRepository.findAll();
     }
 

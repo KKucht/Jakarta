@@ -2,55 +2,47 @@ package com.example.lab1.species;
 
 import com.example.lab1.dataStore.DataStore;
 import com.example.lab1.repository.Repository;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Optional;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
+@RequestScoped
 public class SpeciesRepository implements Repository<SpeciesEntity, UUID> {
-    private final DataStore dataStore;
+    private EntityManager em;
 
-    @Inject
-    public SpeciesRepository(DataStore dataStore) {
-        this.dataStore = dataStore;
+    @PersistenceContext
+    public void setEm(EntityManager em) {
+        this.em = em;
     }
 
     @Override
     public Optional<SpeciesEntity> find(UUID id) {
-        return dataStore.getSpecies()
-                .stream()
-                .filter(entity -> entity.getId().equals(id))
-                .findFirst();
+        return Optional.ofNullable(em.find(SpeciesEntity.class, id));
     }
 
     @Override
-    public Set<SpeciesEntity> findAll() {
-        return new HashSet<>(dataStore.getSpecies());
+    public List<SpeciesEntity> findAll() {
+        return em.createQuery("select s from SpeciesEntity s", SpeciesEntity.class).getResultList();
     }
 
     @Override
     public void create(SpeciesEntity entity) {
-        dataStore.getSpecies().add(new SpeciesEntity(entity));
+        em.persist(entity);
     }
 
     @Override
     public void delete(UUID id) {
-        dataStore.getSpecies()
-                .stream()
-                .filter(entity -> entity.getId().equals(id))
-                .findFirst()
-                .ifPresent(entity -> dataStore.getSpecies().remove(entity));
+        em.remove(em.find(SpeciesEntity.class, id));
     }
 
     @Override
     public void update(UUID id, SpeciesEntity entity) {
-        dataStore.getSpecies()
-                .stream()
-                .filter(e -> e.getId().equals(id))
-                .findFirst()
-                .ifPresent(e -> dataStore.getSpecies().remove(e));
-        dataStore.getSpecies().add(entity);
+        em.merge(entity);
     }
 }
