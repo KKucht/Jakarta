@@ -2,6 +2,7 @@ package com.example.lab1.gardener;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
@@ -25,6 +26,7 @@ public class GardenerService {
         this.imageService = imageService;
     }
 
+    @Transactional
     public void createGardener(GardenerEntity entity) throws IOException {
         if (gardenerRepository.find(entity.getId()).isPresent()){
             throw new IOException("Gardener with the specified UUID exits");
@@ -32,6 +34,7 @@ public class GardenerService {
         gardenerRepository.create(entity);
     }
 
+    @Transactional
     public GardenerEntity getGardener(UUID uuid) throws IOException {
         Optional<GardenerEntity> entity = gardenerRepository.find(uuid);
         if (entity.isEmpty()) {
@@ -40,10 +43,12 @@ public class GardenerService {
         return entity.get();
     }
 
+    @Transactional
     public List<GardenerEntity> getGardeners() {
         return gardenerRepository.findAll();
     }
 
+    @Transactional
     public byte[] getGardenerImage(UUID uuid) throws IOException {
         Optional<GardenerEntity> gardener = gardenerRepository.find(uuid);
         if (gardener.isEmpty()) {
@@ -56,6 +61,7 @@ public class GardenerService {
         return  image;
     }
 
+    @Transactional
     public void createGardenerImage(UUID uuid, InputStream is) throws IOException {
         Optional<GardenerEntity> gardener = gardenerRepository.find(uuid);
         if (gardener.isEmpty()) {
@@ -68,6 +74,7 @@ public class GardenerService {
         }
     }
 
+    @Transactional
     public void updateGardenerImage(UUID uuid, InputStream is) throws IOException {
         Optional<GardenerEntity> gardener = gardenerRepository.find(uuid);
         if (gardener.isEmpty()) {
@@ -80,6 +87,7 @@ public class GardenerService {
         }
     }
 
+    @Transactional
     public void removeGardenerImage(UUID uuid) throws IOException {
         Optional<GardenerEntity> gardener = gardenerRepository.find(uuid);
         if (gardener.isEmpty()) {

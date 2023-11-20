@@ -6,6 +6,7 @@ import com.example.lab1.species.SpeciesRepository;
 import com.example.lab1.species.SpeciesService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
@@ -34,6 +35,7 @@ public class PlantService {
         this.gardenerRepository = gardenerRepository;
     }
 
+    @Transactional
     public void createPlant(PlantEntity entity, UUID speciesId) throws IOException {
         if (plantRepository.find(entity.getId()).isPresent()){
             throw new IOException("Plant with the specified UUID exits");
@@ -47,6 +49,7 @@ public class PlantService {
         speciesRepository.update(entity1.getId(),entity1);
     }
 
+    @Transactional
     public PlantEntity getPlant(UUID uuid) throws IOException {
         Optional<PlantEntity> entity = plantRepository.find(uuid);
         if (entity.isEmpty()) {
@@ -55,10 +58,12 @@ public class PlantService {
         return entity.get();
     }
 
+    @Transactional
     public List<PlantEntity> getPlants() {
         return plantRepository.findAll();
     }
 
+    @Transactional
     public List<PlantEntity> getSpeciesPlants(UUID speciesID) throws IOException {
         if (speciesRepository.find(speciesID).isEmpty()){
             throw new IOException("Species with the specified UUID not found");
@@ -68,6 +73,7 @@ public class PlantService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public void deletePlant(UUID uuid) throws IOException {
         if (plantRepository.find(uuid).isEmpty()){
             throw new IOException("Plant with the specified not UUID exits");
@@ -75,6 +81,7 @@ public class PlantService {
         plantRepository.delete(uuid);
     }
 
+    @Transactional
     public void updatePlant(PlantEntity entity, UUID keeper, UUID species) throws IOException {
         if (plantRepository.find(entity.getId()).isEmpty()){
             throw new IOException("Plant with the specified not UUID exits");

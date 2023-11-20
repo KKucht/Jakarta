@@ -4,6 +4,7 @@ import com.example.lab1.plant.PlantEntity;
 import com.example.lab1.plant.PlantService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class SpeciesService {
         this.plantService = plantService;
     }
 
+    @Transactional
     public void createSpecies(SpeciesEntity entity) throws IOException {
         if (speciesRepository.find(entity.getId()).isPresent()){
             throw new IOException("Species with the specified UUID exits");
@@ -33,6 +35,7 @@ public class SpeciesService {
         speciesRepository.create(entity);
     }
 
+    @Transactional
     public SpeciesEntity getSpecies(UUID uuid) throws IOException {
         Optional<SpeciesEntity> entity = speciesRepository.find(uuid);
         if (entity.isEmpty()) {
@@ -41,10 +44,12 @@ public class SpeciesService {
         return entity.get();
     }
 
+    @Transactional
     public List<SpeciesEntity> getAllSpecies() {
         return speciesRepository.findAll();
     }
 
+    @Transactional
     public void deleteSpecies(UUID uuid) throws IOException {
         Optional<SpeciesEntity> entity = speciesRepository.find(uuid);
         if (entity.isEmpty()){
@@ -56,6 +61,7 @@ public class SpeciesService {
         speciesRepository.delete(uuid);
     }
 
+    @Transactional
     public void updateSpecies(SpeciesEntity entity) throws IOException {
         if (speciesRepository.find(entity.getId()).isEmpty()){
             throw new IOException("Species with the specified not UUID exits");

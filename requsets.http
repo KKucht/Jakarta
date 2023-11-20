@@ -3,11 +3,11 @@ GET http://localhost:9080/ogrod/api/species/
 
 ####
 
-GET http://localhost:9080/ogrod/api/species/405bdf00-6f7f-11ee-b962-0242ac120002
+GET http://localhost:9080/ogrod/api/species/4fe18e8e-6f7f-11ee-b962-0242ac120002
 
 ####
 
-PUT http://localhost:9080/ogrod/api/species/405bdf08-6f7f-12ee-b962-0242ac120002
+PUT http://localhost:9080/ogrod/api/species/405bdf08-6f7f-12ee-b962-0242ac120011
 Content-Type: application/json
 
 {
@@ -27,24 +27,24 @@ Content-Type: application/json
 }
 ####
 
-DELETE http://localhost:9080/ogrod/api/species/405bdf08-6f7f-12ee-b962-0242ac120002
+DELETE http://localhost:9080/ogrod/api/species/cc15811e-6f7e-11ee-b962-0242ac120002
 
 
 ####
 
-GET http://localhost:9080/ogrod/api/species/405bdf00-6f7f-11ee-b962-0242ac120002/plants/
+GET http://localhost:9080/ogrod/api/species/4fe18e8e-6f7f-11ee-b962-0242ac120002/plants/
 
 ###
 GET http://localhost:9080/ogrod/api/plants/
 
 ###
-GET http://localhost:9080/ogrod/api/plants/4d15be20-6f8c-11ee-b962-0242ac120002
+GET http://localhost:9080/ogrod/api/plants/405bdf55-6f7f-11ee-b962-0242ac120002
 
 ###
 DELETE http://localhost:9080/ogrod/api/plants/4d15be20-6f8c-11ee-b962-0242ac120002
 
 ###
-PUT http://localhost:9080/ogrod/api/species/405bdf00-6f7f-11ee-b962-0242ac120002/plants/405bdf55-6f7f-11ee-b962-0242ac120002
+PUT http://localhost:9080/ogrod/api/species/4fe18e8e-6f7f-11ee-b962-0242ac120002/plants/405bdf55-6f7f-11ee-b962-0242ac120002
 Content-Type: application/json
 
 {
