@@ -64,3 +64,35 @@ Content-Type: application/json
   "name": "bbb",
   "height": 0.23
 }
+###
+GET http://localhost:9080/ogrod/api/gardeners
+
+###
+
+GET http://localhost:9080/ogrod/api/gardeners/17410c56-a9b2-4c15-a085-67de10e65aca
+
+###
+
+PUT http://localhost:9080/ogrod/api/gardeners/87cab3a4-8805-11ee-b9d1-0242ac120002
+Content-Type: application/json
+
+{
+  "name": "NOWY_gosc",
+  "age": 67
+}
+
+###
+GET http://localhost:9080/ogrod/api/gardeners/87cab3a4-8805-11ee-b9d1-0242ac120002/image
+
+###
+PUT http://localhost:9080/ogrod/api/gardeners/87cab3a4-8805-11ee-b9d1-0242ac120002/image
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="image"; filename="aaa.png'
+
+< aaa.png
+--boundary--
+
+###
+DELETE http://localhost:9080/ogrod/api/gardeners/87cab3a4-8805-11ee-b9d1-0242ac120002/image
