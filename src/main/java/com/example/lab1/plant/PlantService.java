@@ -42,6 +42,11 @@ public class PlantService {
         }
         if (speciesRepository.find(speciesId).isEmpty())
             throw new IOException("Species with the specified UUID not found");
+        if (entity.getKeeper() != null) {
+            if (gardenerRepository.find(entity.getKeeper().getId()).isEmpty()){
+                throw new IOException("Gardener with the specified UUID not found");
+            }
+        }
         SpeciesEntity entity1 = speciesService.getSpecies(speciesId);
         entity.setSpecies(entity1);
         entity1.getPlants().add(entity);

@@ -78,42 +78,42 @@ public class InitializedData {
 
             ArrayList<PlantEntity> plants = new ArrayList<>();
             plants.add(new PlantEntity(UUID.fromString("2f7d4e9c-6f81-11ee-b962-0242ac120002"), "misiek", 1.75,
-                    LocalDate.of(2001, 3, 30), null, null));
+                    LocalDate.of(2001, 3, 30), gardeners.get(0), null));
             plants.add(new PlantEntity(UUID.fromString("2f7d514e-6f81-11ee-b962-0242ac120002"), "stefan", 12,
-                    LocalDate.of(1998, 6, 21), null, null));
+                    LocalDate.of(1998, 6, 21), gardeners.get(1), null));
             plants.add(new PlantEntity(UUID.fromString("2f7d5298-6f81-11ee-b962-0242ac120002"), "reksio", 3.64,
-                    LocalDate.of(2008, 8, 17), null, null));
+                    LocalDate.of(2008, 8, 17), gardeners.get(2), null));
             plants.add(new PlantEntity(UUID.fromString("2f7d53c4-6f81-11ee-b962-0242ac120002"), "domek", 15,
-                    LocalDate.of(2001, 10, 15), null, null));
+                    LocalDate.of(2001, 10, 15), gardeners.get(3), null));
             plants.add(new PlantEntity(UUID.fromString("2f7d54d2-6f81-11ee-b962-0242ac120002"), "maly", 0.3,
-                    LocalDate.of(2003, 1, 2), null, null));
+                    LocalDate.of(2003, 1, 2), gardeners.get(0), null));
             plants.add(new PlantEntity(UUID.fromString("4d15be20-6f8c-11ee-b962-0242ac120002"), "duzy", 0.8,
-                    LocalDate.of(1999, 8, 4), null, null));
+                    LocalDate.of(1999, 8, 4), gardeners.get(1), null));
 
             plants.add(new PlantEntity(UUID.fromString("4146f2aa-7593-11ee-b962-0242ac120002"), "s123", 1.75,
-                    LocalDate.of(2001, 3, 30), null, null));
+                    LocalDate.of(2001, 3, 30), gardeners.get(2), null));
             plants.add(new PlantEntity(UUID.fromString("4146f7b4-7593-11ee-b962-0242ac120002"), "abcdef", 12,
-                    LocalDate.of(1998, 6, 21), null, null));
+                    LocalDate.of(1998, 6, 21), gardeners.get(3), null));
             plants.add(new PlantEntity(UUID.fromString("4146f9da-7593-11ee-b962-0242ac120002"), "aaaaaaa", 3.64,
-                    LocalDate.of(2008, 8, 17), null, null));
+                    LocalDate.of(2008, 8, 17), gardeners.get(0), null));
             plants.add(new PlantEntity(UUID.fromString("4146fbce-7593-11ee-b962-0242ac120002"), "big", 15,
-                    LocalDate.of(2001, 10, 15), null, null));
+                    LocalDate.of(2001, 10, 15), gardeners.get(1), null));
             plants.add(new PlantEntity(UUID.fromString("4146fd72-7593-11ee-b962-0242ac120002"), "dig", 0.3,
-                    LocalDate.of(2003, 1, 2), null, null));
+                    LocalDate.of(2003, 1, 2), gardeners.get(2), null));
             plants.add(new PlantEntity(UUID.fromString("4146ff2a-7593-11ee-b962-0242ac120002"), "sssssa", 0.8,
-                    LocalDate.of(1999, 8, 4), null, null));
+                    LocalDate.of(1999, 8, 4), gardeners.get(3), null));
             plants.add(new PlantEntity(UUID.fromString("41470556-7593-11ee-b962-0242ac120002"), "lol", 1.75,
-                    LocalDate.of(2001, 3, 30), null, null));
+                    LocalDate.of(2001, 3, 30), gardeners.get(0), null));
             plants.add(new PlantEntity(UUID.fromString("414706e6-7593-11ee-b962-0242ac120002"), "xd", 12,
-                    LocalDate.of(1998, 6, 21), null, null));
+                    LocalDate.of(1998, 6, 21), gardeners.get(1), null));
             plants.add(new PlantEntity(UUID.fromString("41470876-7593-11ee-b962-0242ac120002"), "imie", 3.64,
-                    LocalDate.of(2008, 8, 17), null, null));
+                    LocalDate.of(2008, 8, 17), gardeners.get(2), null));
             plants.add(new PlantEntity(UUID.fromString("414709de-7593-11ee-b962-0242ac120002"), "nieimie", 15,
-                    LocalDate.of(2001, 10, 15), null, null));
+                    LocalDate.of(2001, 10, 15), gardeners.get(3), null));
             plants.add(new PlantEntity(UUID.fromString("41470b50-7593-11ee-b962-0242ac120002"), "andrzej", 0.3,
-                    LocalDate.of(2003, 1, 2), null, null));
+                    LocalDate.of(2003, 1, 2), gardeners.get(0), null));
             plants.add(new PlantEntity(UUID.fromString("41470cb8-7593-11ee-b962-0242ac120002"), "ojojjj", 0.8,
-                    LocalDate.of(1999, 8, 4), null, null));
+                    LocalDate.of(1999, 8, 4), gardeners.get(1), null));
 
             for (int i = 0; i < plants.size(); i++) {
                 if (i < 2)

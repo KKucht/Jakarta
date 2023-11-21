@@ -1,5 +1,6 @@
 package com.example.lab1.gardener;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.ServletContext;
@@ -13,6 +14,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 import java.util.UUID;
 
+@ApplicationScoped
 public class ImageService {
 
 
