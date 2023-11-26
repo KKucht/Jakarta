@@ -3,6 +3,7 @@ package com.example.lab1.gardener.controller.old;
 import com.example.lab1.gardener.GardenerService;
 import com.example.lab1.gardener.factory.old.GardenerFactory;
 import com.example.lab1.gardener.models.old.GardenerModel;
+import jakarta.ejb.EJBException;
 import jakarta.inject.Inject;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -14,7 +15,7 @@ import java.util.UUID;
 
 public class GardenerController {
 
-    private final GardenerService gardenerService;
+    private GardenerService gardenerService;
 
     private final GardenerFactory factory;
 
@@ -32,26 +33,25 @@ public class GardenerController {
     }
 
     public void getGardener(UUID uuid, HttpServletResponse response) throws IOException {
-            GardenerModel gardener;
-            response.setContentType("application/json");
-            try {
-                gardener = factory.getModelFromEntity(gardenerService.getGardener(uuid));
-            } catch (Exception e){
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Gardener with the specified UUID not found.");
-                return;
-            }
-            response.getWriter().write(jsonb.toJson(gardener));
+        GardenerModel gardener;
+        response.setContentType("application/json");
+        try {
+            gardener = factory.getModelFromEntity(gardenerService.getGardener(uuid));
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Gardener with the specified UUID not found.");
+            return;
+        }
+        response.getWriter().write(jsonb.toJson(gardener));
     }
 
     public void getGardenerImage(UUID uuid, HttpServletResponse response) throws IOException {
         response.setContentType("image/png");
         try {
             response.getOutputStream().write(gardenerService.getGardenerImage(uuid));
-        } catch (IOException e) {
+        } catch (EJBException | IOException e) {
             if (e.getMessage().equals("Image not found")) {
                 response.sendError(HttpServletResponse.SC_CONFLICT, "Image for this gardener not exit.");
-            }
-            else {
+            } else {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Gardener with the specified UUID not found.");
             }
         }
@@ -62,11 +62,10 @@ public class GardenerController {
         try {
             gardenerService.getGardenerImage(uuid);
             gardenerService.updateGardenerImage(uuid, is);
-        } catch (IOException e){
+        } catch (EJBException | IOException e) {
             if (e.getMessage().equals("Image not found")) {
                 response.sendError(HttpServletResponse.SC_CONFLICT, "Image for this gardener not exit.");
-            }
-            else {
+            } else {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Gardener with the specified UUID not found.");
             }
         }
@@ -77,11 +76,10 @@ public class GardenerController {
         try {
             gardenerService.getGardenerImage(uuid);
             response.sendError(HttpServletResponse.SC_CONFLICT, "Image for this gardener exits.");
-        } catch (IOException e){
+        } catch (EJBException | IOException e) {
             if (e.getMessage().equals("Image not found")) {
                 gardenerService.createGardenerImage(uuid, is);
-            }
-            else {
+            } else {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Gardener with the specified UUID not found.");
             }
         }
@@ -92,11 +90,10 @@ public class GardenerController {
         try {
             gardenerService.getGardenerImage(uuid);
             gardenerService.removeGardenerImage(uuid);
-        } catch (IOException e){
+        } catch (EJBException | IOException e) {
             if (e.getMessage().equals("Image not found")) {
                 response.sendError(HttpServletResponse.SC_CONFLICT, "Image for this gardener not exits.");
-            }
-            else {
+            } else {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Gardener with the specified UUID not found.");
             }
         }

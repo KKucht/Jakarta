@@ -25,7 +25,7 @@ function onReset() {
     setTimeout(initInputs, 0);
 }
 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function () {
     initInputs();
     fixRadio();
 });

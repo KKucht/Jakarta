@@ -18,4 +18,8 @@ public class PutGardenerRequest {
     private String name;
 
     private int age;
+
+    private String login;
+
+    private String password;
 }

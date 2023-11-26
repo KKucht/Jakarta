@@ -1,64 +1,95 @@
-package com.example.lab1.dataStore;
+package com.example.lab1.configuration.singleton;
 
 import com.example.lab1.gardener.GardenerEntity;
+import com.example.lab1.gardener.GardenerRoles;
 import com.example.lab1.gardener.GardenerService;
 import com.example.lab1.plant.PlantEntity;
 import com.example.lab1.plant.PlantService;
 import com.example.lab1.species.SpeciesEntity;
 import com.example.lab1.species.SpeciesService;
 import com.example.lab1.species.Type;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.Initialized;
-import jakarta.enterprise.context.control.RequestContextController;
-import jakarta.enterprise.event.Observes;
-import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.security.DeclareRoles;
+import jakarta.annotation.security.RunAs;
+import jakarta.ejb.*;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.java.Log;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-@ApplicationScoped
+@Singleton
+@Startup
+@TransactionAttribute(value = TransactionAttributeType.NOT_SUPPORTED)
+@NoArgsConstructor
+@DependsOn("InitializeAdminService")
+@DeclareRoles({GardenerRoles.ADMIN, GardenerRoles.USER})
+@RunAs(GardenerRoles.ADMIN)
+@Log
 public class InitializedData {
 
-    private final GardenerService gardenerService;
+    private GardenerService gardenerService;
 
-    private final PlantService plantService;
-
-    private final SpeciesService speciesService;
-
-    private final RequestContextController requestContextController;
-
-    @Inject
-    public InitializedData(GardenerService gardenerService, PlantService plantService, SpeciesService speciesService,
-                           RequestContextController requestContextController) {
+    @EJB
+    public void setGardenerService(GardenerService gardenerService) {
         this.gardenerService = gardenerService;
+    }
+
+    private PlantService plantService;
+
+    @EJB
+    public void setPlantService(PlantService plantService) {
         this.plantService = plantService;
+    }
+
+    private SpeciesService speciesService;
+
+    @EJB
+    public void setSpeciesService(SpeciesService speciesService) {
         this.speciesService = speciesService;
-        this.requestContextController = requestContextController;
     }
 
-    @Transactional
-    public void contextInitialized(@Observes @Initialized(ApplicationScoped.class) Object init) {
-        init();
-    }
-
+    @PostConstruct
     @SneakyThrows
     private void init() {
-        requestContextController.activate();
-
         try {
             ArrayList<GardenerEntity> gardeners = new ArrayList<>();
-            gardeners.add(new GardenerEntity(UUID.fromString("6741bc76-a975-41dd-9bb7-68262ef8c2f2"), "Stefan",
-                    27, new ArrayList<>()));
-            gardeners.add(new GardenerEntity(UUID.fromString("62e5abed-076c-4f90-9a35-efa6eadd13fe"), "Wojciech",
-                    34, new ArrayList<>()));
-            gardeners.add(new GardenerEntity(UUID.fromString("17410c56-a9b2-4c15-a085-67de10e65aca"), "Milosz",
-                    36, new ArrayList<>()));
-            gardeners.add(new GardenerEntity(UUID.fromString("423c3a58-8777-4baf-baa5-e230372d18f4"), "Agata",
-                    83, new ArrayList<>()));
+            gardeners.add(GardenerEntity.builder()
+                    .id(UUID.fromString("40b12d28-8bec-11ee-b9d1-0242ac120002"))
+                    .login("admin")
+                    .name("Stefan")
+                    .age(27)
+                    .password("admin")
+                    .roles(List.of(GardenerRoles.USER,GardenerRoles.ADMIN))
+                    .build());
+            gardeners.add(GardenerEntity.builder()
+                    .id(UUID.fromString("46257052-8bec-11ee-b9d1-0242ac120002"))
+                    .login("user1")
+                    .name("Wojciech")
+                    .age(34)
+                    .password("user1")
+                    .roles(List.of(GardenerRoles.USER))
+                    .build());
+            gardeners.add(GardenerEntity.builder()
+                    .id(UUID.fromString("46257412-8bec-11ee-b9d1-0242ac120002"))
+                    .login("user2")
+                    .name("Milosz")
+                    .age(36)
+                    .password("user2")
+                    .roles(List.of(GardenerRoles.USER))
+                    .build());
+            gardeners.add(GardenerEntity.builder()
+                    .id(UUID.fromString("6741bc76-a975-41dd-9bb7-68262ef8c2f2"))
+                    .login("user3")
+                    .name("Agata")
+                    .age(83)
+                    .password("user3")
+                    .roles(List.of(GardenerRoles.USER))
+                    .build());
 
             for (GardenerEntity gardener : gardeners) {
                 gardenerService.createGardener(gardener);
@@ -123,10 +154,9 @@ public class InitializedData {
                 else
                     plantService.createPlant(plants.get(i), UUID.fromString("4fe18e8e-6f7f-11ee-b962-0242ac120002"));
             }
-        } catch (IOException ignored){
+        } catch (EJBException | IOException ignored) {
 
         }
-        requestContextController.deactivate();
     }
 
 }

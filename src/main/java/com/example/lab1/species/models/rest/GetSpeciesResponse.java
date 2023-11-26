@@ -1,7 +1,6 @@
 package com.example.lab1.species.models.rest;
 
 import com.example.lab1.species.Type;
-
 import lombok.*;
 
 import java.util.UUID;

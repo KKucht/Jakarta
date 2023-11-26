@@ -6,7 +6,10 @@ import com.example.lab1.gardener.factory.GardenerFactory;
 import com.example.lab1.gardener.models.rest.GetGardenerResponse;
 import com.example.lab1.gardener.models.rest.GetGardenersResponse;
 import com.example.lab1.gardener.models.rest.PutGardenerRequest;
+import com.example.lab1.plant.PlantService;
 import com.example.lab1.plant.controller.api.PlantController;
+import jakarta.ejb.EJB;
+import jakarta.ejb.EJBException;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.BadRequestException;
@@ -27,18 +30,21 @@ public class GardenerRestController implements GardenerController {
 
     private final UriInfo uriInfo;
 
-    private final GardenerService service;
+    private GardenerService service;
 
     private final GardenerFactory factory;
 
     @Inject
-    public GardenerRestController(GardenerService service,
-                                  GardenerFactory factory,
-                               @SuppressWarnings("CdiInjectionPointsInspection") UriInfo uriInfo
+    public GardenerRestController(GardenerFactory factory,
+                                  @SuppressWarnings("CdiInjectionPointsInspection") UriInfo uriInfo
     ) {
-        this.service = service;
         this.factory = factory;
         this.uriInfo = uriInfo;
+    }
+
+    @EJB
+    public void setService(GardenerService service) {
+        this.service = service;
     }
 
     @Context
@@ -48,28 +54,32 @@ public class GardenerRestController implements GardenerController {
 
     @Override
     public GetGardenersResponse getGardeners() {
-        return factory.getResponse(service.getGardeners());
+        try{
+            return factory.getResponse(service.getGardeners());
+        } catch (EJBException e){
+            throw new NotFoundException();
+        }
     }
 
     @Override
     public GetGardenerResponse getGardener(UUID id) {
-        try{
+        try {
             return factory.getResponse(service.getGardener(id));
-        } catch (IOException e) {
+        } catch (EJBException | IOException e) {
             throw new NotFoundException();
         }
     }
 
     @Override
     public void registerGardener(UUID id, PutGardenerRequest request) {
-        try{
-            service.createGardener(factory.getNewEntity(id,request));
+        try {
+            service.createGardener(factory.getNewEntity(id, request));
             response.setHeader("Location", uriInfo.getBaseUriBuilder()
                     .path(PlantController.class, "getPlant")
                     .build(id)
                     .toString());
             throw new WebApplicationException(Response.Status.CREATED);
-        } catch (IOException e) {
+        } catch (EJBException | IOException e) {
             throw new BadRequestException();
         }
     }
@@ -78,7 +88,7 @@ public class GardenerRestController implements GardenerController {
     public byte[] getGardenerImage(UUID id) {
         try {
             return service.getGardenerImage(id);
-        } catch (IOException e) {
+        } catch (EJBException | IOException e) {
             throw new NotFoundException();
         }
     }
@@ -88,10 +98,10 @@ public class GardenerRestController implements GardenerController {
         try {
             service.getGardenerImage(id);
             service.updateGardenerImage(id, image);
-        } catch (IOException e) {
-            try{
+        } catch (EJBException | IOException e) {
+            try {
                 service.createGardenerImage(id, image);
-            } catch (IOException ex) {
+            } catch (EJBException | IOException ex) {
                 throw new BadRequestException(ex);
             }
         }
@@ -99,10 +109,10 @@ public class GardenerRestController implements GardenerController {
 
     @Override
     public void deleteGardenerImage(UUID id) {
-        try{
+        try {
             service.getGardenerImage(id);
             service.removeGardenerImage(id);
-        } catch (IOException e) {
+        } catch (EJBException | IOException e) {
             throw new NotFoundException(e);
         }
     }

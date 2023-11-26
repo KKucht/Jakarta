@@ -9,12 +9,8 @@ import com.example.lab1.plant.models.rest.GetPlantResponse;
 import com.example.lab1.plant.models.rest.GetPlantsResponse;
 import com.example.lab1.plant.models.rest.PatchPlantRequest;
 import com.example.lab1.plant.models.rest.PutPlantRequest;
-import com.example.lab1.species.SpeciesEntity;
-import com.example.lab1.species.models.rest.GetAllSpeciesResponse;
-import com.example.lab1.species.models.rest.GetSpeciesResponse;
 import jakarta.enterprise.context.ApplicationScoped;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

@@ -36,7 +36,8 @@
                 <div class="row">
                     <div class="col-4 p-2">
                         <div class="form-outline">
-                            <h:inputText id="plantingDate" value="#{plantCreateView.model.plantingDate}" styleClass="form-control">
+                            <h:inputText id="plantingDate" value="#{plantCreateView.model.plantingDate}"
+                                         styleClass="form-control">
                                 <f:convertDateTime type="localDate" pattern="yyyy-MM-dd"/>
                             </h:inputText>
                             <h:outputLabel for="plantingDate" value="Planting Date:" styleClass="form-label"/>
@@ -50,7 +51,8 @@
                         <fieldset>
                             <legend class="form-label fs-6">Species:</legend>
                             <h:selectOneMenu value="#{plantCreateView.species}">
-                                <f:selectItems value="#{plantCreateView.allSpeciesModel.species}" var="species" itemValue="#{species}" itemLabel="#{species.name}"/>
+                                <f:selectItems value="#{plantCreateView.allSpeciesModel.species}" var="species"
+                                               itemValue="#{species}" itemLabel="#{species.name}"/>
                             </h:selectOneMenu>
                         </fieldset>
                     </div>
@@ -58,10 +60,12 @@
 
                 <div class="row">
                     <div class="col-2 p-2 text-center">
-                        <h:commandButton styleClass="btn btn-primary" value="Create" action="#{plantCreateView.saveAction()}"/>
+                        <h:commandButton styleClass="btn btn-primary" value="Create"
+                                         action="#{plantCreateView.saveAction()}"/>
                     </div>
                     <div class="col-2 p-2 text-center">
-                        <h:commandButton styleClass="btn btn-secondary" value="Cancel" action="#{plantCreateView.cancelAction()}"/>
+                        <h:commandButton styleClass="btn btn-secondary" value="Cancel"
+                                         action="#{plantCreateView.cancelAction()}"/>
                     </div>
                 </div>
             </h:form>

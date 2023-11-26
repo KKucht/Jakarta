@@ -1,6 +1,5 @@
 package com.example.lab1.gardener.models.old;
 
-import com.example.lab1.gardener.GardenerEntity;
 import lombok.*;
 
 import java.util.UUID;

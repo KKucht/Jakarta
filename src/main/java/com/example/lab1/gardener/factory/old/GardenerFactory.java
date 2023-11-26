@@ -20,11 +20,11 @@ public class GardenerFactory implements GetGardenerModelFromEntity, GetGardeners
 
     @Override
     public GardenerEntity getEntityFromModel(NewGardenerModel m) {
-        return new GardenerEntity(
-                m.getId(),
-                m.getName(),
-                m.getAge(),
-                new ArrayList<>());
+        return GardenerEntity.builder()
+                .id(m.getId())
+                .name(m.getName())
+                .age(m.getAge())
+                .build();
     }
 
     @Override

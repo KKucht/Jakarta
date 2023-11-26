@@ -68,32 +68,26 @@ public class MainController extends HttpServlet {
             if (path.matches(Patterns.GARDENERS.pattern())) {
                 gardenerController.getGardeners(response);
                 return;
-            }
-            else if (path.matches(Patterns.GARDENER.pattern())) {
+            } else if (path.matches(Patterns.GARDENER.pattern())) {
                 UUID uuid = extractUuid(pathURI);
                 gardenerController.getGardener(uuid, response);
                 return;
-            }
-            else if (path.matches(Patterns.GARDENER_IMAGE.pattern())) {
+            } else if (path.matches(Patterns.GARDENER_IMAGE.pattern())) {
                 UUID uuid = extractUuid(pathURI);
                 gardenerController.getGardenerImage(uuid, response);
                 return;
-            }
-            else if (path.matches(Patterns.PLANT.pattern())) {
+            } else if (path.matches(Patterns.PLANT.pattern())) {
                 UUID uuid = extractUuid(pathURI);
                 plantController.getPlant(uuid, response);
                 return;
-            }
-            else if (path.matches(Patterns.PLANTS.pattern())) {
+            } else if (path.matches(Patterns.PLANTS.pattern())) {
                 plantController.getPlants(response);
                 return;
-            }
-            else if (path.matches(Patterns.SPECIES.pattern())) {
+            } else if (path.matches(Patterns.SPECIES.pattern())) {
                 UUID uuid = extractUuid(pathURI);
                 speciesController.getSpecies(uuid, response);
                 return;
-            }
-            else if (path.matches(Patterns.ALL_SPECIES.pattern())) {
+            } else if (path.matches(Patterns.ALL_SPECIES.pattern())) {
                 speciesController.getAllSpecies(response);
                 return;
             }
@@ -108,7 +102,7 @@ public class MainController extends HttpServlet {
             String path = request.getPathInfo();
             if (path.matches(Patterns.GARDENER_IMAGE.pattern())) {
                 UUID uuid = extractUuid(pathURI);
-                gardenerController.postGardenerImage(uuid,request.getInputStream(),response);
+                gardenerController.postGardenerImage(uuid, request.getInputStream(), response);
                 return;
             }
         }
@@ -122,7 +116,7 @@ public class MainController extends HttpServlet {
             String path = request.getPathInfo();
             if (path.matches(Patterns.GARDENER_IMAGE.pattern())) {
                 UUID uuid = extractUuid(pathURI);
-                gardenerController.putGardenerImage(uuid, request.getInputStream(),response);
+                gardenerController.putGardenerImage(uuid, request.getInputStream(), response);
                 return;
             }
         }
@@ -136,7 +130,7 @@ public class MainController extends HttpServlet {
             String path = request.getPathInfo();
             if (path.matches(Patterns.GARDENER_IMAGE.pattern())) {
                 UUID uuid = extractUuid(pathURI);
-                gardenerController.deleteGardenerImage(uuid,response);
+                gardenerController.deleteGardenerImage(uuid, response);
                 return;
             }
         }

@@ -41,4 +41,9 @@ public interface PlantController {
     @Path("/plants/{id}")
     void deletePlant(@PathParam("id") UUID id);
 
+    @GET
+    @Path("/gardeners/{id}/plants/")
+    @Produces(MediaType.APPLICATION_JSON)
+    GetPlantsResponse getGardenerPlants(@PathParam("id") UUID id);
+
 }

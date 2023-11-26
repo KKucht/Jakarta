@@ -13,7 +13,8 @@ import java.util.UUID;
 
 public class PlantController {
 
-    private final PlantService plantService;
+    private PlantService plantService;
+
 
     private final PlantFactory factory;
 
@@ -35,7 +36,7 @@ public class PlantController {
         response.setContentType("application/json");
         try {
             model = factory.getModelFromEntity(plantService.getPlant(uuid));
-        } catch (Exception e){
+        } catch (Exception e) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, e.getMessage());
             return;
         }

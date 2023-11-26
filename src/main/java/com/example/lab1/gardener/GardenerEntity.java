@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +22,11 @@ public class GardenerEntity implements Serializable {
     @Id
     private UUID id;
 
+    private String login;
+
+    @ToString.Exclude
+    private String password;
+
     private String name;
 
     private int age;
@@ -31,5 +35,10 @@ public class GardenerEntity implements Serializable {
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "keeper", cascade = CascadeType.REMOVE)
     private List<PlantEntity> plants;
+
+    @CollectionTable(name = "gardeners_roles", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles;
 
 }

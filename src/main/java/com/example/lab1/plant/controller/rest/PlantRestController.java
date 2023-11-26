@@ -1,5 +1,6 @@
 package com.example.lab1.plant.controller.rest;
 
+import com.example.lab1.gardener.GardenerRoles;
 import com.example.lab1.plant.PlantService;
 import com.example.lab1.plant.controller.api.PlantController;
 import com.example.lab1.plant.factory.PlantFactory;
@@ -7,6 +8,10 @@ import com.example.lab1.plant.models.rest.GetPlantResponse;
 import com.example.lab1.plant.models.rest.GetPlantsResponse;
 import com.example.lab1.plant.models.rest.PatchPlantRequest;
 import com.example.lab1.plant.models.rest.PutPlantRequest;
+import com.example.lab1.species.SpeciesService;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.EJB;
+import jakarta.ejb.EJBException;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.BadRequestException;
@@ -21,22 +26,26 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Path("")
-public class PlantRestController implements PlantController{
+@RolesAllowed(GardenerRoles.USER)
+public class PlantRestController implements PlantController {
 
     private HttpServletResponse response;
 
     private final UriInfo uriInfo;
 
-    private final PlantService service;
+    private PlantService service;
+
+    @EJB
+    public void setService(PlantService service) {
+        this.service = service;
+    }
 
     private final PlantFactory factory;
 
     @Inject
-    public PlantRestController(PlantService service,
-                               PlantFactory factory,
+    public PlantRestController(PlantFactory factory,
                                @SuppressWarnings("CdiInjectionPointsInspection") UriInfo uriInfo
     ) {
-        this.service = service;
         this.factory = factory;
         this.uriInfo = uriInfo;
     }
@@ -48,14 +57,18 @@ public class PlantRestController implements PlantController{
 
     @Override
     public GetPlantsResponse getPlants() {
-        return factory.getResponse(service.getPlants());
+        try{
+            return factory.getResponse(service.getPlants());
+        } catch (IOException e) {
+            throw new NotFoundException();
+        }
     }
 
     @Override
     public GetPlantsResponse getSpeciesPlants(UUID id) {
-        try{
+        try {
             return factory.getResponse(service.getSpeciesPlants(id));
-        } catch (IOException e) {
+        } catch (EJBException | IOException e) {
             throw new NotFoundException();
         }
     }
@@ -64,29 +77,28 @@ public class PlantRestController implements PlantController{
     public GetPlantResponse getPlant(UUID id) {
         try {
             return factory.getResponse(service.getPlant(id));
-        } catch (IOException e) {
+        } catch (EJBException | IOException e) {
             throw new NotFoundException();
         }
     }
 
     @Override
     public void putPlant(UUID speciesId, UUID id, PutPlantRequest request) {
-        try{
-            service.createPlant(factory.getNewEntity(id,request),speciesId);
+        try {
+            service.createPlant(factory.getNewEntity(id, request), speciesId);
             response.setHeader("Location", uriInfo.getBaseUriBuilder()
                     .path(PlantController.class, "getPlant")
                     .build(id)
                     .toString());
             throw new WebApplicationException(Response.Status.CREATED);
-        } catch (IOException e) {
-            if (e.getMessage().equals("Plant with the specified UUID exits")){
-                try{
+        } catch (EJBException | IOException e) {
+            if (e.getMessage().equals("Plant with the specified UUID exits")) {
+                try {
                     service.updatePlant(factory.getUpdatedEntity(service.getPlant(id), request), null, speciesId);
-                } catch (IOException ex) {
+                } catch (EJBException | IOException ex) {
                     throw new BadRequestException();
                 }
-            }
-            else
+            } else
                 throw new BadRequestException();
         }
     }
@@ -94,17 +106,26 @@ public class PlantRestController implements PlantController{
     @Override
     public void patchPlant(UUID speciesId, UUID id, PatchPlantRequest request) {
         try {
-            service.updatePlant(factory.getUpdatedEntity(service.getPlant(id) , request), null, speciesId);
-        } catch (IOException e) {
+            service.updatePlant(factory.getUpdatedEntity(service.getPlant(id), request), null, speciesId);
+        } catch (EJBException | IOException e) {
             throw new BadRequestException();
         }
     }
 
     @Override
     public void deletePlant(UUID id) {
-        try{
+        try {
             service.deletePlant(id);
-        } catch (IOException e) {
+        } catch (EJBException | IOException e) {
+            throw new NotFoundException();
+        }
+    }
+
+    @Override
+    public GetPlantsResponse getGardenerPlants(UUID id) {
+        try {
+            return factory.getResponse(service.getGardenerPlants(id));
+        } catch (EJBException | IOException e) {
             throw new NotFoundException();
         }
     }

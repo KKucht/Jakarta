@@ -7,6 +7,7 @@ import com.example.lab1.species.SpeciesService;
 import com.example.lab1.species.factory.old.SpeciesFactory;
 import com.example.lab1.species.models.old.AllSpeciesModel;
 import com.example.lab1.species.models.old.SimpleSpeciesModel;
+import jakarta.ejb.EJB;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -21,9 +22,19 @@ import java.util.UUID;
 @Named
 public class PlantCreateView implements Serializable {
 
-    private final PlantService plantService;
+    private PlantService plantService;
 
-    private final SpeciesService speciesService;
+    @EJB
+    public void setPlantService(PlantService plantService) {
+        this.plantService = plantService;
+    }
+
+    private SpeciesService speciesService;
+
+    @EJB
+    public void setSpeciesService(SpeciesService speciesService) {
+        this.speciesService = speciesService;
+    }
 
     private final PlantFactory plantFactory;
 
@@ -45,11 +56,8 @@ public class PlantCreateView implements Serializable {
 
 
     @Inject
-    public PlantCreateView(PlantService plantService,SpeciesService speciesService, PlantFactory plantFactory,
-                      SpeciesFactory speciesFactory) {
-        this.plantService = plantService;
+    public PlantCreateView(PlantFactory plantFactory, SpeciesFactory speciesFactory) {
         this.plantFactory = plantFactory;
-        this.speciesService = speciesService;
         this.speciesFactory = speciesFactory;
     }
 
@@ -61,7 +69,7 @@ public class PlantCreateView implements Serializable {
     public String saveAction() throws IOException {
         System.out.println(species.getId());
         model.setSpecies(species.getId());
-        plantService.createPlant(plantFactory.getEntityFromModel(model),model.getSpecies());
+        plantService.createPlant(plantFactory.getEntityFromModel(model), model.getSpecies());
         return "/plant/plant_list.xhtml?faces-redirect=true";
     }
 

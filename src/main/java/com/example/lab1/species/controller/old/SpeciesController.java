@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class SpeciesController {
 
-    private final SpeciesService speciesService;
+    private SpeciesService speciesService;
 
     private final SpeciesFactory factory;
 
@@ -35,7 +35,7 @@ public class SpeciesController {
         response.setContentType("application/json");
         try {
             model = factory.getModelFromEntity(speciesService.getSpecies(uuid));
-        } catch (Exception e){
+        } catch (Exception e) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Species with the specified UUID not found.");
             return;
         }

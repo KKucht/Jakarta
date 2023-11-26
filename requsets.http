@@ -1,13 +1,23 @@
-
+// @no-cookie-jar
 GET http://localhost:9080/ogrod/api/species/
-
+Authorization: Basic YWRtaW46YWRtaW4= #admin:admin
+#Authorization: Basic dXNlcjE6dXNlcjE= # user1:user1
+#Authorization: Basic dXNlcjI6dXNlcjI= # user2:user2
+#Authorization: Basic dXNlcjM6dXNlcjM= # user3:user3
 ####
-
-GET http://localhost:9080/ogrod/api/species/4fe18e8e-6f7f-11ee-b962-0242ac120002
-
+// @no-cookie-jar
+GET http://localhost:9080/ogrod/api/species/405bdf08-6f7f-12ee-b962-0242ac120011
+#Authorization: Basic YWRtaW46YWRtaW4= #admin:admin
+Authorization: Basic dXNlcjE6dXNlcjE= # user1:user1
+#Authorization: Basic dXNlcjI6dXNlcjI= # user2:user2
+#Authorization: Basic dXNlcjM6dXNlcjM= # user3:user3
 ####
-
+// @no-cookie-jar
 PUT http://localhost:9080/ogrod/api/species/405bdf08-6f7f-12ee-b962-0242ac120011
+#Authorization: Basic YWRtaW46YWRtaW4= #admin:admin
+Authorization: Basic dXNlcjE6dXNlcjE= # user1:user1
+#Authorization: Basic dXNlcjI6dXNlcjI= # user2:user2
+#Authorization: Basic dXNlcjM6dXNlcjM= # user3:user3
 Content-Type: application/json
 
 {
@@ -17,8 +27,12 @@ Content-Type: application/json
 }
 
 ####
-
-PATCH http://localhost:9080/ogrod/api/species/405bdf08-6f7f-12ee-b962-0242ac120002
+// @no-cookie-jar
+PATCH http://localhost:9080/ogrod/api/species/405bdf08-6f7f-12ee-b962-0242ac120011
+#Authorization: Basic YWRtaW46YWRtaW4= #admin:admin
+Authorization: Basic dXNlcjE6dXNlcjE= # user1:user1
+#Authorization: Basic dXNlcjI6dXNlcjI= # user2:user2
+#Authorization: Basic dXNlcjM6dXNlcjM= # user3:user3
 Content-Type: application/json
 
 {
@@ -26,25 +40,53 @@ Content-Type: application/json
   "price": 16.0
 }
 ####
-
-DELETE http://localhost:9080/ogrod/api/species/cc15811e-6f7e-11ee-b962-0242ac120002
+// @no-cookie-jar
+DELETE http://localhost:9080/ogrod/api/species/405bdf08-6f7f-12ee-b962-0242ac120011
+#Authorization: Basic YWRtaW46YWRtaW4= #admin:admin
+Authorization: Basic dXNlcjE6dXNlcjE= # user1:user1
+#Authorization: Basic dXNlcjI6dXNlcjI= # user2:user2
+#Authorization: Basic dXNlcjM6dXNlcjM= # user3:user3
 
 
 ####
-
+// @no-cookie-jar
 GET http://localhost:9080/ogrod/api/species/4fe18e8e-6f7f-11ee-b962-0242ac120002/plants/
+#Authorization: Basic YWRtaW46YWRtaW4= #admin:admin
+Authorization: Basic dXNlcjE6dXNlcjE= # user1:user1
+#Authorization: Basic dXNlcjI6dXNlcjI= # user2:user2
+#Authorization: Basic dXNlcjM6dXNlcjM= # user3:user3
 
 ###
+// @no-cookie-jar
 GET http://localhost:9080/ogrod/api/plants/
+#Authorization: Basic YWRtaW46YWRtaW4= #admin:admin
+Authorization: Basic dXNlcjE6dXNlcjE= # user1:user1
+#Authorization: Basic dXNlcjI6dXNlcjI= # user2:user2
+#Authorization: Basic dXNlcjM6dXNlcjM= # user3:user3
 
 ###
+// @no-cookie-jar
 GET http://localhost:9080/ogrod/api/plants/405bdf55-6f7f-11ee-b962-0242ac120002
+#Authorization: Basic YWRtaW46YWRtaW4= #admin:admin
+Authorization: Basic dXNlcjE6dXNlcjE= # user1:user1
+#Authorization: Basic dXNlcjI6dXNlcjI= # user2:user2
+#Authorization: Basic dXNlcjM6dXNlcjM= # user3:user3
 
 ###
-DELETE http://localhost:9080/ogrod/api/plants/4d15be20-6f8c-11ee-b962-0242ac120002
+// @no-cookie-jar
+DELETE http://localhost:9080/ogrod/api/plants/405bdf55-6f7f-11ee-b962-0242ac120002
+#Authorization: Basic YWRtaW46YWRtaW4= #admin:admin
+Authorization: Basic dXNlcjE6dXNlcjE= # user1:user1
+#Authorization: Basic dXNlcjI6dXNlcjI= # user2:user2
+#Authorization: Basic dXNlcjM6dXNlcjM= # user3:user3
 
 ###
+// @no-cookie-jar
 PUT http://localhost:9080/ogrod/api/species/4fe18e8e-6f7f-11ee-b962-0242ac120002/plants/405bdf55-6f7f-11ee-b962-0242ac120002
+#Authorization: Basic YWRtaW46YWRtaW4= #admin:admin
+Authorization: Basic dXNlcjE6dXNlcjE= # user1:user1
+#Authorization: Basic dXNlcjI6dXNlcjI= # user2:user2
+#Authorization: Basic dXNlcjM6dXNlcjM= # user3:user3
 Content-Type: application/json
 
 {
@@ -54,10 +96,20 @@ Content-Type: application/json
 }
 
 ###
+// @no-cookie-jar
 GET http://localhost:9080/ogrod/api/plants/405bdf55-6f7f-11ee-b962-0242ac120002
+Authorization: Basic YWRtaW46YWRtaW4= #admin:admin
+#Authorization: Basic dXNlcjE6dXNlcjE= # user1:user1
+#Authorization: Basic dXNlcjI6dXNlcjI= # user2:user2
+#Authorization: Basic dXNlcjM6dXNlcjM= # user3:user3
 
 ###
-PATCH http://localhost:9080/ogrod/api/species/405bdf00-6f7f-11ee-b962-0242ac120002/plants/405bdf55-6f7f-11ee-b962-0242ac120002
+// @no-cookie-jar
+PATCH http://localhost:9080/ogrod/api/species/4fe18e8e-6f7f-11ee-b962-0242ac120002/plants/405bdf55-6f7f-11ee-b962-0242ac120002
+#Authorization: Basic YWRtaW46YWRtaW4= #admin:admin
+Authorization: Basic dXNlcjE6dXNlcjE= # user1:user1
+#Authorization: Basic dXNlcjI6dXNlcjI= # user2:user2
+#Authorization: Basic dXNlcjM6dXNlcjM= # user3:user3
 Content-Type: application/json
 
 {
@@ -65,27 +117,53 @@ Content-Type: application/json
   "height": 0.23
 }
 ###
+// @no-cookie-jar
 GET http://localhost:9080/ogrod/api/gardeners
-
+Authorization: Basic YWRtaW46YWRtaW4= #admin:admin
+#Authorization: Basic dXNlcjE6dXNlcjE= # user1:user1
+#Authorization: Basic dXNlcjI6dXNlcjI= # user2:user2
+#Authorization: Basic dXNlcjM6dXNlcjM= # user3:user3
 ###
-
-GET http://localhost:9080/ogrod/api/gardeners/17410c56-a9b2-4c15-a085-67de10e65aca
-
+// @no-cookie-jar
+GET http://localhost:9080/ogrod/api/gardeners/f6492f9c-8c8b-11ee-b9d1-0242ac120002
+Authorization: Basic YWRtaW46YWRtaW4= #admin:admin
+#Authorization: Basic dXNlcjE6dXNlcjE= # user1:user1
+#Authorization: Basic dXNlcjI6dXNlcjI= # user2:user2
+#Authorization: Basic dXNlcjM6dXNlcjM= # user3:user3
 ###
-
-PUT http://localhost:9080/ogrod/api/gardeners/87cab3a4-8805-11ee-b9d1-0242ac120002
+// @no-cookie-jar
+PUT http://localhost:9080/ogrod/api/gardeners/f6492f9c-8c8b-11ee-b9d1-0242ac120002
+#Authorization: Basic YWRtaW46YWRtaW4= #admin:admin
+#Authorization: Basic dXNlcjE6dXNlcjE= # user1:user1
+#Authorization: Basic dXNlcjI6dXNlcjI= # user2:user2
+#Authorization: Basic dXNlcjM6dXNlcjM= # user3:user3
+#Authorization: Basic dXNlcjU6dXNlcjU= # user5:uesr5
 Content-Type: application/json
 
 {
   "name": "NOWY_gosc",
-  "age": 67
+  "age": 67,
+  "login": "user5",
+  "password": "user5"
 }
 
 ###
-GET http://localhost:9080/ogrod/api/gardeners/87cab3a4-8805-11ee-b9d1-0242ac120002/image
-
+// @no-cookie-jar
+GET http://localhost:9080/ogrod/api/gardeners/f6492f9c-8c8b-11ee-b9d1-0242ac120002/image
+#Authorization: Basic YWRtaW46YWRtaW4= #admin:admin
+#Authorization: Basic dXNlcjE6dXNlcjE= # user1:user1
+#Authorization: Basic dXNlcjI6dXNlcjI= # user2:user2
+#Authorization: Basic dXNlcjM6dXNlcjM= # user3:user3
+#Authorization: Basic dXNlcjQ6dXNlcjQ= # user4:uesr4
+Authorization: Basic dXNlcjU6dXNlcjU= # user5:uesr5
 ###
-PUT http://localhost:9080/ogrod/api/gardeners/87cab3a4-8805-11ee-b9d1-0242ac120002/image
+// @no-cookie-jar
+PUT http://localhost:9080/ogrod/api/gardeners/f6492f9c-8c8b-11ee-b9d1-0242ac120002/image
+#Authorization: Basic YWRtaW46YWRtaW4= #admin:admin
+#Authorization: Basic dXNlcjE6dXNlcjE= # user1:user1
+#Authorization: Basic dXNlcjI6dXNlcjI= # user2:user2
+#Authorization: Basic dXNlcjM6dXNlcjM= # user3:user3
+Authorization: Basic dXNlcjU6dXNlcjU= # user5:uesr5
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
@@ -95,4 +173,9 @@ Content-Disposition: form-data; name="image"; filename="aaa.png'
 --boundary--
 
 ###
-DELETE http://localhost:9080/ogrod/api/gardeners/87cab3a4-8805-11ee-b9d1-0242ac120002/image
+// @no-cookie-jar
+DELETE http://localhost:9080/ogrod/api/gardeners/f6492f9c-8c8b-11ee-b9d1-0242ac120002/image
+Authorization: Basic YWRtaW46YWRtaW4= #admin:admin
+#Authorization: Basic dXNlcjE6dXNlcjE= # user1:user1
+#Authorization: Basic dXNlcjI6dXNlcjI= # user2:user2
+#Authorization: Basic dXNlcjM6dXNlcjM= # user3:user3

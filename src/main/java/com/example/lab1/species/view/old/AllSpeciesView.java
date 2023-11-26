@@ -4,6 +4,7 @@ import com.example.lab1.species.SpeciesService;
 import com.example.lab1.species.factory.old.SpeciesFactory;
 import com.example.lab1.species.models.old.AllSpeciesModel;
 import com.example.lab1.species.models.old.SimpleSpeciesModel;
+import jakarta.ejb.EJB;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -14,7 +15,7 @@ import java.io.Serializable;
 @ViewScoped
 @Named
 public class AllSpeciesView implements Serializable {
-    private final SpeciesService service;
+    private SpeciesService service;
 
     private AllSpeciesModel model;
 
@@ -22,8 +23,12 @@ public class AllSpeciesView implements Serializable {
 
     @Inject
     public AllSpeciesView(SpeciesService service, SpeciesFactory factory) {
-        this.service = service;
         this.factory = factory;
+    }
+
+    @EJB
+    public void setService(SpeciesService service) {
+        this.service = service;
     }
 
     public AllSpeciesModel getModel() {

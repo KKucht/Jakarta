@@ -1,18 +1,15 @@
 package com.example.lab1.species;
 
-import com.example.lab1.dataStore.DataStore;
 import com.example.lab1.repository.Repository;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
+import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
-import java.util.ArrayList;
-import java.util.Optional;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-@RequestScoped
+@Dependent
 public class SpeciesRepository implements Repository<SpeciesEntity, UUID> {
     private EntityManager em;
 

@@ -1,15 +1,17 @@
 package com.example.lab1.plant;
 
-import com.example.lab1.dataStore.DataStore;
+import com.example.lab1.gardener.GardenerEntity;
 import com.example.lab1.repository.Repository;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
+import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-@RequestScoped
+@Dependent
 public class PlantRepository implements Repository<PlantEntity, UUID> {
     private EntityManager em;
 
@@ -24,12 +26,12 @@ public class PlantRepository implements Repository<PlantEntity, UUID> {
     }
 
     @Override
-    public List<PlantEntity> findAll()  {
+    public List<PlantEntity> findAll() {
         return em.createQuery("select p from PlantEntity p", PlantEntity.class).getResultList();
     }
 
     @Override
-    public void create(PlantEntity entity)  {
+    public void create(PlantEntity entity) {
         em.persist(entity);
     }
 
@@ -41,5 +43,22 @@ public class PlantRepository implements Repository<PlantEntity, UUID> {
     @Override
     public void update(UUID id, PlantEntity entity) {
         em.merge(entity);
+    }
+
+    public Optional<PlantEntity> findByIdAndGardener(UUID id, GardenerEntity gardener){
+        try {
+            return Optional.of(em.createQuery("select p from PlantEntity p where p.id = :id and p.keeper = :gardener", PlantEntity.class)
+                    .setParameter("gardener", gardener)
+                    .setParameter("id", id)
+                    .getSingleResult());
+        } catch (NoResultException ex) {
+            return Optional.empty();
+        }
+    }
+
+    public List<PlantEntity> findAllByGardener(GardenerEntity gardener){
+        return em.createQuery("select p from PlantEntity p where p.keeper = :gardener", PlantEntity.class)
+                .setParameter("gardener", gardener)
+                .getResultList();
     }
 }

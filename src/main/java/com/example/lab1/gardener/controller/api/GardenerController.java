@@ -37,11 +37,12 @@ public interface GardenerController {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     void putGardenerImage(
             @PathParam("id") UUID id,
-            @SuppressWarnings("RestParamTypeInspection")@FormParam("image") InputStream image
+            @SuppressWarnings("RestParamTypeInspection") @FormParam("image") InputStream image
     );
 
     @DELETE
     @Path("/gardeners/{id}/image")
     void deleteGardenerImage(@PathParam("id") UUID id);
+
 
 }

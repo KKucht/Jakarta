@@ -1,13 +1,16 @@
 package com.example.lab1.gardener;
 
 import com.example.lab1.repository.Repository;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-@RequestScoped
+@Dependent
 public class GardenerRepository implements Repository<GardenerEntity, UUID> {
 
     private EntityManager em;
@@ -40,5 +43,15 @@ public class GardenerRepository implements Repository<GardenerEntity, UUID> {
     @Override
     public void update(UUID id, GardenerEntity entity) {
         em.merge(entity);
+    }
+
+    public Optional<GardenerEntity> findByLogin(String login) {
+        try {
+            return Optional.of(em.createQuery("select u from GardenerEntity u where u.login = :login", GardenerEntity.class)
+                    .setParameter("login", login)
+                    .getSingleResult());
+        } catch (NoResultException ex) {
+            return Optional.empty();
+        }
     }
 }

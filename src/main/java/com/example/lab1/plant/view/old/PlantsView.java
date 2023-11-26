@@ -7,6 +7,7 @@ import com.example.lab1.plant.models.old.SimplePlantModel;
 import com.example.lab1.species.SpeciesService;
 import com.example.lab1.species.factory.old.SpeciesFactory;
 import com.example.lab1.species.models.old.SpeciesModel;
+import jakarta.ejb.EJB;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -22,9 +23,19 @@ import java.util.stream.Collectors;
 @Named
 public class PlantsView implements Serializable {
 
-    private final PlantService plantService;
+    private PlantService plantService;
 
-    private final SpeciesService speciesService;
+    @EJB
+    public void setPlantService(PlantService plantService) {
+        this.plantService = plantService;
+    }
+
+    private SpeciesService speciesService;
+
+    @EJB
+    public void setSpeciesService(SpeciesService speciesService) {
+        this.speciesService = speciesService;
+    }
 
     private PlantsModel plantsModel;
 
@@ -41,22 +52,23 @@ public class PlantsView implements Serializable {
     private String speciesDescription;
 
     @Inject
-    public PlantsView(PlantService plantService,SpeciesService speciesService, PlantFactory plantFactory,
-                      SpeciesFactory speciesFactory) {
-        this.plantService = plantService;
+    public PlantsView(PlantFactory plantFactory, SpeciesFactory speciesFactory) {
         this.plantFactory = plantFactory;
-        this.speciesService = speciesService;
         this.speciesFactory = speciesFactory;
     }
 
     public PlantsModel getPlantsModel() {
-        if (plantsModel == null) {
-            if (speciesId != null)
-                plantsModel = plantFactory.getModelFromEntity(plantService.getPlants().stream()
-                    .filter(el -> speciesId.equals(el.getSpecies().getId()))
-                    .collect(Collectors.toList()));
-            else
-                plantsModel = plantFactory.getModelFromEntity(plantService.getPlants());
+        try{
+            if (plantsModel == null) {
+                if (speciesId != null)
+                    plantsModel = plantFactory.getModelFromEntity(plantService.getPlants().stream()
+                            .filter(el -> speciesId.equals(el.getSpecies().getId()))
+                            .collect(Collectors.toList()));
+                else
+                    plantsModel = plantFactory.getModelFromEntity(plantService.getPlants());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         return plantsModel;
     }
@@ -65,12 +77,11 @@ public class PlantsView implements Serializable {
         if (speciesId == null) {
             speciesDescription = "All plants";
         } else {
-            try{
+            try {
                 SpeciesModel speciesModel = speciesFactory.getModelFromEntity(speciesService.getSpecies(speciesId));
-                speciesDescription = speciesModel.getName() + " is " + speciesModel.getType() +". One costs " + speciesModel.getPrice() + " OJROS";
+                speciesDescription = speciesModel.getName() + " is " + speciesModel.getType() + ". One costs " + speciesModel.getPrice() + " OJROS";
 
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 speciesDescription = "Error: " + e.getMessage();
             }
         }

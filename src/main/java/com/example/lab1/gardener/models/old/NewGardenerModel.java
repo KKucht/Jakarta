@@ -2,7 +2,6 @@ package com.example.lab1.gardener.models.old;
 
 import lombok.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @Getter

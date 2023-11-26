@@ -4,6 +4,8 @@ import com.example.lab1.species.SpeciesService;
 import com.example.lab1.species.factory.old.SpeciesFactory;
 import com.example.lab1.species.models.old.SimpleSpeciesModel;
 import com.example.lab1.species.models.old.SpeciesModel;
+import jakarta.ejb.EJB;
+import jakarta.ejb.EJBException;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
@@ -16,13 +18,18 @@ import java.util.UUID;
 @FacesConverter(forClass = SimpleSpeciesModel.class, managed = true)
 public class SpeciesModelConverter implements Converter<SimpleSpeciesModel> {
 
-    private final SpeciesService service;
+    private SpeciesService service;
+
+    @EJB
+    public void setService(SpeciesService service) {
+
+        this.service = service;
+    }
 
     private final SpeciesFactory factory;
 
     @Inject
-    public SpeciesModelConverter(SpeciesService service, SpeciesFactory factory) {
-        this.service = service;
+    public SpeciesModelConverter(SpeciesFactory factory) {
         this.factory = factory;
     }
 
@@ -34,7 +41,7 @@ public class SpeciesModelConverter implements Converter<SimpleSpeciesModel> {
         SpeciesModel model = null;
         try {
             model = factory.getModelFromEntity(service.getSpecies(UUID.fromString(value)));
-        } catch (IOException e) {
+        } catch (EJBException | IOException e) {
             throw new RuntimeException(e);
         }
         return new SimpleSpeciesModel(model.getId(), model.getName(), model.getType());

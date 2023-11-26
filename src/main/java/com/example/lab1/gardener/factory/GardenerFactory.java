@@ -38,8 +38,11 @@ public class GardenerFactory implements EntityToGetGardenerResponse, EntityToGet
     public GardenerEntity getNewEntity(UUID uuid, PutGardenerRequest r) {
         return GardenerEntity.builder()
                 .id(uuid)
+                .login(r.getLogin())
+                .password(r.getPassword())
                 .name(r.getName())
                 .age(r.getAge())
+                .roles(null)
                 .plants(new ArrayList<>())
                 .build();
     }
@@ -50,6 +53,9 @@ public class GardenerFactory implements EntityToGetGardenerResponse, EntityToGet
                 .id(e.getId())
                 .age(r.getAge())
                 .name(r.getName())
+                .roles(e.getRoles())
+                .login(e.getLogin())
+                .password(e.getPassword())
                 .plants(e.getPlants())
                 .build();
     }

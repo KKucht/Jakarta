@@ -7,6 +7,8 @@ import com.example.lab1.species.models.rest.GetAllSpeciesResponse;
 import com.example.lab1.species.models.rest.GetSpeciesResponse;
 import com.example.lab1.species.models.rest.PatchSpeciesRequest;
 import com.example.lab1.species.models.rest.PutSpeciesRequest;
+import jakarta.ejb.EJB;
+import jakarta.ejb.EJBException;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.BadRequestException;
@@ -27,18 +29,21 @@ public class SpeciesRestController implements SpeciesController {
 
     private final UriInfo uriInfo;
 
-    private final SpeciesService service;
+    private SpeciesService service;
 
     private final SpeciesFactory factory;
 
     @Inject
-    public SpeciesRestController(SpeciesService service,
-                                 SpeciesFactory factory,
+    public SpeciesRestController(SpeciesFactory factory,
                                  @SuppressWarnings("CdiInjectionPointsInspection") UriInfo uriInfo
     ) {
-        this.service = service;
         this.factory = factory;
         this.uriInfo = uriInfo;
+    }
+
+    @EJB
+    public void setService(SpeciesService service) {
+        this.service = service;
     }
 
 
@@ -56,16 +61,16 @@ public class SpeciesRestController implements SpeciesController {
     public GetSpeciesResponse getSpecies(UUID uuid) {
         try {
             return factory.getResponse(service.getSpecies(uuid));
-        } catch (Exception e) {
+        } catch (EJBException | IOException e) {
             throw new NotFoundException();
         }
     }
 
     @Override
     public void deleteSpecies(UUID uuid) {
-        try{
+        try {
             service.deleteSpecies(uuid);
-        } catch (IOException e) {
+        } catch (EJBException | IOException e) {
             throw new NotFoundException();
         }
     }
@@ -73,22 +78,21 @@ public class SpeciesRestController implements SpeciesController {
     @Override
     public void putSpecies(UUID uuid, PutSpeciesRequest request) {
         try {
-            service.createSpecies(factory.getNewEntity(uuid,request));
+            service.createSpecies(factory.getNewEntity(uuid, request));
             response.setHeader("Location", uriInfo.getBaseUriBuilder()
                     .path(SpeciesController.class, "getSpecies")
                     .build(uuid)
                     .toString());
             throw new WebApplicationException(Response.Status.CREATED);
-        } catch (IOException e) {
-            try{
-                if (e.getMessage().equals("Species with the specified UUID exits")){
-                    service.updateSpecies(factory.getUpdatedEntity(service.getSpecies(uuid) , request));
+        } catch (EJBException | IOException e) {
+            try {
+                if (e.getMessage().equals("Species with the specified UUID exits")) {
+                    service.updateSpecies(factory.getUpdatedEntity(service.getSpecies(uuid), request));
+                } else {
+                    throw new BadRequestException(e);
                 }
-                else {
-                    throw new BadRequestException();
-                }
-            } catch (IOException ex) {
-                throw new BadRequestException();
+            } catch (EJBException | IOException ex) {
+                throw new BadRequestException(ex);
             }
         }
     }
@@ -96,8 +100,8 @@ public class SpeciesRestController implements SpeciesController {
     @Override
     public void patchSpecies(UUID uuid, PatchSpeciesRequest request) {
         try {
-            service.updateSpecies(factory.getUpdatedEntity(service.getSpecies(uuid) , request));
-        } catch (IOException e) {
+            service.updateSpecies(factory.getUpdatedEntity(service.getSpecies(uuid), request));
+        } catch (EJBException | IOException e) {
             throw new NotFoundException();
         }
     }
