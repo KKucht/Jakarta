@@ -3,6 +3,7 @@ package com.example.lab1.plant;
 import com.example.lab1.gardener.GardenerEntity;
 import com.example.lab1.gardener.GardenerRepository;
 import com.example.lab1.gardener.GardenerRoles;
+import com.example.lab1.plant.interceptor.binding.LogMethodCall;
 import com.example.lab1.species.SpeciesEntity;
 import com.example.lab1.species.SpeciesRepository;
 import com.example.lab1.species.SpeciesService;
@@ -14,6 +15,7 @@ import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.SecurityContext;
 import lombok.NoArgsConstructor;
+import lombok.extern.java.Log;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 @LocalBean
 @Stateless
 @NoArgsConstructor(force = true)
+@Log
 public class PlantService {
 
     private final PlantRepository plantRepository;
@@ -53,6 +56,7 @@ public class PlantService {
     }
 
     @RolesAllowed(GardenerRoles.USER)
+    @LogMethodCall
     public void createPlant(PlantEntity entity, UUID speciesId) throws IOException {
         if (plantRepository.find(entity.getId()).isPresent()) {
             throw new IOException("Plant with the specified UUID exits");
@@ -133,6 +137,7 @@ public class PlantService {
     }
 
     @RolesAllowed(GardenerRoles.USER)
+    @LogMethodCall
     public void deletePlant(UUID uuid) throws IOException {
         if (plantRepository.find(uuid).isEmpty()) {
             throw new IOException("Plant with the specified not UUID exits");
@@ -142,6 +147,7 @@ public class PlantService {
     }
 
     @RolesAllowed(GardenerRoles.USER)
+    @LogMethodCall
     public void updatePlant(PlantEntity entity, UUID keeper, UUID species) throws IOException {
         if (plantRepository.find(entity.getId()).isEmpty()) {
             throw new IOException("Plant with the specified not UUID exits");
