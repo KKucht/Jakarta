@@ -5,6 +5,9 @@ import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +30,12 @@ public class GardenerRepository implements Repository<GardenerEntity, UUID> {
 
     @Override
     public List<GardenerEntity> findAll() {
-        return em.createQuery("select g from GardenerEntity g", GardenerEntity.class).getResultList();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<GardenerEntity> query = cb.createQuery(GardenerEntity.class);
+        Root<GardenerEntity> root = query.from(GardenerEntity.class);
+        query.select(root);
+        return em.createQuery(query).getResultList();
+//        return em.createQuery("select g from GardenerEntity g", GardenerEntity.class).getResultList();
     }
 
     @Override
@@ -47,9 +55,15 @@ public class GardenerRepository implements Repository<GardenerEntity, UUID> {
 
     public Optional<GardenerEntity> findByLogin(String login) {
         try {
-            return Optional.of(em.createQuery("select u from GardenerEntity u where u.login = :login", GardenerEntity.class)
-                    .setParameter("login", login)
-                    .getSingleResult());
+//            return Optional.of(em.createQuery("select u from GardenerEntity u where u.login = :login", GardenerEntity.class)
+//                    .setParameter("login", login)
+//                    .getSingleResult());
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<GardenerEntity> query = cb.createQuery(GardenerEntity.class);
+            Root<GardenerEntity> root = query.from(GardenerEntity.class);
+            query.select(root)
+                    .where(cb.equal(root.get(GardenerEntity_.login), login));
+            return Optional.of(em.createQuery(query).getSingleResult());
         } catch (NoResultException ex) {
             return Optional.empty();
         }

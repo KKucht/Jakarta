@@ -4,6 +4,9 @@ import com.example.lab1.repository.Repository;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +28,12 @@ public class SpeciesRepository implements Repository<SpeciesEntity, UUID> {
 
     @Override
     public List<SpeciesEntity> findAll() {
-        return em.createQuery("select s from SpeciesEntity s", SpeciesEntity.class).getResultList();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<SpeciesEntity> query = cb.createQuery(SpeciesEntity.class);
+        Root<SpeciesEntity> root = query.from(SpeciesEntity.class);
+        query.select(root);
+        return em.createQuery(query).getResultList();
+//        return em.createQuery("select s from SpeciesEntity s", SpeciesEntity.class).getResultList();
     }
 
     @Override
