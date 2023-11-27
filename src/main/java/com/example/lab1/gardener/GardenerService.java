@@ -1,5 +1,7 @@
 package com.example.lab1.gardener;
 
+import com.example.lab1.plant.PlantEntity;
+import com.example.lab1.plant.PlantRepository;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJBAccessException;
@@ -16,6 +18,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @LocalBean
 @Stateless
@@ -23,6 +26,8 @@ import java.util.UUID;
 public class GardenerService {
 
     private final GardenerRepository gardenerRepository;
+
+    private final PlantRepository plantRepository;
 
     private final ImageService imageService;
 
@@ -33,12 +38,14 @@ public class GardenerService {
     @Inject
     public GardenerService(GardenerRepository gardenerRepository,
                            ImageService imageService,
+                           PlantRepository plantRepository,
                            @SuppressWarnings("CdiInjectionPointsInspection") Pbkdf2PasswordHash passwordHash,
                            @SuppressWarnings("CdiInjectionPointsInspection") SecurityContext securityContext) {
         this.gardenerRepository = gardenerRepository;
         this.imageService = imageService;
         this.securityContext = securityContext;
         this.passwordHash = passwordHash;
+        this.plantRepository = plantRepository;
     }
 
     @PermitAll
@@ -125,4 +132,13 @@ public class GardenerService {
         return gardener.getPassword().equals(password);
     }
 
+    @RolesAllowed(GardenerRoles.ADMIN)
+    public void deleteGardener(UUID id) throws IOException{
+        if(gardenerRepository.find(id).isEmpty())
+            throw new IOException("Gardener with the specified UUID exits");
+        plantRepository.findAll().stream().filter(
+                entity -> entity.getKeeper().getId().equals(id)).forEach(
+                        entity -> plantRepository.delete(entity.getId()));
+        gardenerRepository.delete(id);
+    }
 }

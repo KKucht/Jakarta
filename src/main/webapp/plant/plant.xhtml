@@ -11,6 +11,7 @@
     </f:metadata>
 
     <ui:define name="content">
+        <f:loadBundle var="msg" basename="com.example.lab1.plant.view.i18n.messages"/>
         <article>
             <header><h2><h:outputText value="#{plantView.model.name}"/></h2></header>
             <div class="container">
@@ -19,7 +20,7 @@
 
                         <div class="row mb-2">
                             <div class="col-6">
-                                Name
+                                #{msg['data.name']}
                             </div>
                             <div class="col-6">
                                 <h:outputText value="#{plantView.model.name}"/>
@@ -28,7 +29,7 @@
 
                         <div class="row mb-2">
                             <div class="col-6">
-                                Height
+                                #{msg['data.height']}
                             </div>
                             <div class="col-6">
                                 <h:outputText value="#{plantView.model.height}"/>
@@ -37,7 +38,7 @@
 
                         <div class="row mb-2">
                             <div class="col-6">
-                                Planting Date
+                                #{msg['data.plantingDate']}
                             </div>
                             <div class="col-6">
                                 <h:outputText value="#{plantView.model.plantingDate}"/>

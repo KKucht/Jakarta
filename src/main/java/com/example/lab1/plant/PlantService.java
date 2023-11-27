@@ -115,12 +115,19 @@ public class PlantService {
         return plantRepository.findAllByGardener(g.get());
     }
 
-    @RolesAllowed(GardenerRoles.ADMIN)
+    @RolesAllowed(GardenerRoles.USER)
     public List<PlantEntity> getSpeciesPlants(UUID speciesID) throws IOException {
         if (speciesRepository.find(speciesID).isEmpty()) {
             throw new IOException("Species with the specified UUID not found");
         }
-        return plantRepository.findAll().stream()
+        if (securityContext.isCallerInRole(GardenerRoles.ADMIN))
+            return plantRepository.findAll().stream()
+                    .filter(entity -> entity.getSpecies().getId().equals(speciesID))
+                    .collect(Collectors.toList());
+        Optional<GardenerEntity> g = gardenerRepository.findByLogin(securityContext.getCallerPrincipal().getName());
+        if (g.isEmpty())
+            throw new IOException("Gardener with the specified UUID not found");
+        return plantRepository.findAllByGardener(g.get()).stream()
                 .filter(entity -> entity.getSpecies().getId().equals(speciesID))
                 .collect(Collectors.toList());
     }

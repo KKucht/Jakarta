@@ -10,38 +10,38 @@
     </f:metadata>
 
     <ui:define name="content">
-
+        <f:loadBundle var="msg" basename="com.example.lab1.plant.view.i18n.messages"/>
         <article class="text--justified">
             <header>
-                <h2>Plants</h2>
+                <h2>#{msg['header.list']}</h2>
                 <div><h:outputText value="#{plantsView.speciesDescription}"/></div>
             </header>
 
             <h:dataTable value="#{plantsView.plantsModel.plants}" var="plant"
                          styleClass="table align-middle mb-0 bg-white" headerClass="bg-light">
                 <h:column>
-                    <f:facet name="header">Name</f:facet>
+                    <f:facet name="header">#{msg['data.name']}</f:facet>
                     <h:outputText value="#{plant.name}"/>
                 </h:column>
 
                 <h:column>
-                    <f:facet name="header">View</f:facet>
-                    <h:link outcome="/plant/plant.xhtml" value="View">
+                    <f:facet name="header">#{msg['data.view']}</f:facet>
+                    <h:link outcome="/plant/plant.xhtml" value="#{msg['data.view']}">
                         <f:param name="id" value="#{plant.id}"/>
                     </h:link>
                 </h:column>
 
                 <h:column>
-                    <f:facet name="header">Delete</f:facet>
+                    <f:facet name="header">#{msg['data.delete']}</f:facet>
                     <h:form>
-                        <h:commandButton styleClass="btn" value="Delete"
+                        <h:commandButton styleClass="btn" value="#{msg['data.delete']}"
                                          action="#{plantsView.deletePlant(plant)}"/>
                     </h:form>
                 </h:column>
 
                 <h:column>
-                    <f:facet name="header">Edit</f:facet>
-                    <h:link outcome="/plant/plant_edit.xhtml" value="Edit">
+                    <f:facet name="header">#{msg['data.edit']}</f:facet>
+                    <h:link outcome="/plant/plant_edit.xhtml" value="#{msg['data.edit']}">
                         <f:param name="id" value="#{plant.id}"/>
                     </h:link>
                 </h:column>
@@ -49,7 +49,7 @@
 
                 <f:facet name="footer">
                     <h:button styleClass="btn" outcome="/plant/plant_create.xhtml"
-                              value="Create new plant"/>
+                              value="#{msg['form.createNewPlant']}"/>
                 </f:facet>
             </h:dataTable>
         </article>
