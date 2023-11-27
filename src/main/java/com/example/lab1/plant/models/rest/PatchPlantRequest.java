@@ -14,4 +14,6 @@ public class PatchPlantRequest {
     private String name;
 
     private double height;
+
+    private Long version;
 }

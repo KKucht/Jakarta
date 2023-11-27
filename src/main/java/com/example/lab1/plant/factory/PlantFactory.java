@@ -24,6 +24,7 @@ public class PlantFactory implements EntityToGetPlantResponse, EntityToGetPlants
                 .id(e.getId())
                 .height(e.getHeight())
                 .plantingDate(e.getPlantingDate())
+                .version(e.getVersion())
                 .species(GetPlantResponse.Species.builder()
                         .id(e.getSpecies().getId())
                         .name(e.getSpecies().getName())
@@ -52,6 +53,9 @@ public class PlantFactory implements EntityToGetPlantResponse, EntityToGetPlants
                 .name(r.getName())
                 .plantingDate(e.getPlantingDate())
                 .species(e.getSpecies())
+                .version(r.getVersion())
+                .creationDateTime(e.getCreationDateTime())
+                .lastUpdateDateTime(e.getLastUpdateDateTime())
                 .build();
     }
 
@@ -76,6 +80,9 @@ public class PlantFactory implements EntityToGetPlantResponse, EntityToGetPlants
                 .name(r.getName())
                 .plantingDate(r.getPlantingDate())
                 .species(e.getSpecies())
+                .version(r.getVersion())
+                .creationDateTime(e.getCreationDateTime())
+                .lastUpdateDateTime(e.getLastUpdateDateTime())
                 .build();
     }
 }

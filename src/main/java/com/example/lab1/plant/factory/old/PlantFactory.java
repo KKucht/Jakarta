@@ -18,40 +18,51 @@ import java.util.stream.Collectors;
 public class PlantFactory implements GetEntityFromPlantModel, GetEntityFromNewPlantModel, GetPlantModelFromEntity, GetPlantsModelFromEntity {
     @Override
     public PlantEntity getEntityFromModel(NewPlantModel m) {
-        return new PlantEntity(
-                m.getId(),
-                m.getName(),
-                m.getHeight(),
-                m.getPlantingDate(),
-                null, null);
+        return PlantEntity.builder()
+                .id(m.getId())
+                .name(m.getName())
+                .height(m.getHeight())
+                .plantingDate(m.getPlantingDate())
+                .keeper(null)
+                .species(null)
+                .build();
     }
 
     @Override
     public PlantModel getModelFromEntity(PlantEntity e) {
-        return new PlantModel(
-                e.getId(),
-                e.getName(),
-                e.getHeight(),
-                e.getPlantingDate(),
-                (e.getKeeper() != null) ? e.getKeeper().getId() : null,
-                e.getSpecies().getId());
+        return PlantModel.builder()
+                .id(e.getId())
+                .height(e.getHeight())
+                .name(e.getName())
+                .plantingDate(e.getPlantingDate())
+                .keeper((e.getKeeper() != null) ? e.getKeeper().getId() : null)
+                .species(e.getSpecies().getId())
+                .version(e.getVersion())
+                .creationDateTime(e.getCreationDateTime())
+                .lastUpdateDateTime(e.getLastUpdateDateTime())
+                .build();
     }
 
     @Override
     public PlantsModel getModelFromEntity(List<PlantEntity> e) {
         return new PlantsModel(e
                 .stream()
-                .map(en -> new SimplePlantModel(en.getId(), en.getName()))
+                .map(en -> new SimplePlantModel(en.getId(), en.getName(), en.getVersion(), en.getCreationDateTime(), en.getLastUpdateDateTime()))
                 .collect(Collectors.toList()));
     }
 
     @Override
-    public PlantEntity getEntityFromModel(PlantModel m) {
-        return new PlantEntity(
-                m.getId(),
-                m.getName(),
-                m.getHeight(),
-                m.getPlantingDate(),
-                null, null);
+    public PlantEntity getEntityFromModel(PlantModel m, PlantEntity e) {
+        return PlantEntity.builder()
+                .id(m.getId())
+                .name(m.getName())
+                .height(m.getHeight())
+                .plantingDate(m.getPlantingDate())
+                .keeper(e.getKeeper())
+                .species(e.getSpecies())
+                .version(m.getVersion())
+                .creationDateTime(e.getCreationDateTime())
+                .lastUpdateDateTime(e.getLastUpdateDateTime())
+                .build();
     }
 }

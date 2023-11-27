@@ -39,4 +39,6 @@ public class GetPlantResponse {
 
     private Species species;
 
+    private Long version;
+
 }

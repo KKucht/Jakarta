@@ -18,4 +18,6 @@ public class PutPlantRequest {
     private double height;
 
     private LocalDate plantingDate;
+
+    private Long version;
 }

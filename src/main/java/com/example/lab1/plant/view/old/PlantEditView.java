@@ -5,10 +5,12 @@ import com.example.lab1.plant.factory.old.PlantFactory;
 import com.example.lab1.plant.models.old.PlantModel;
 import jakarta.ejb.EJB;
 import jakarta.ejb.EJBException;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,13 +52,21 @@ public class PlantEditView implements Serializable {
         }
     }
 
-    public String saveAction() {
+    public String saveAction() throws IOException {
         try {
-            service.updatePlant(factory.getEntityFromModel(model), model.getKeeper(), model.getSpecies());
+            service.updatePlant(factory.getEntityFromModel(model,service.getPlant(model.getId())), model.getKeeper(), model.getSpecies());
             String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
             return viewId + "?faces-redirect=true&includeViewParams=true";
         } catch (EJBException | IOException e) {
-            throw new RuntimeException(e);
+            if (e.getCause() instanceof OptimisticLockException){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Version collision."));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Your previous version:"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Name - " + model.getName()));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Height - " + model.getHeight()));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Planting Date - " + model.getPlantingDate()));
+                init();
+            }
+            return null;
         }
     }
 

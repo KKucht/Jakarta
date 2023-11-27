@@ -25,6 +25,25 @@
                 </h:column>
 
                 <h:column>
+                    <f:facet name="header">#{msg['data.version']}</f:facet>
+                    <h:outputText value="#{plant.version}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{msg['data.created']}</f:facet>
+                    <h:outputText value="#{plant.creationDateTime}">
+                        <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd HH:mm"/>
+                    </h:outputText>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{msg['data.lastUpdated']}</f:facet>
+                    <h:outputText value="#{plant.lastUpdateDateTime}">
+                        <f:convertDateTime type="localDateTime" pattern="yyyy-MM-dd HH:mm"/>
+                    </h:outputText>
+                </h:column>
+
+                <h:column>
                     <f:facet name="header">#{msg['data.view']}</f:facet>
                     <h:link outcome="/plant/plant.xhtml" value="#{msg['data.view']}">
                         <f:param name="id" value="#{plant.id}"/>
