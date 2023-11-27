@@ -17,7 +17,7 @@
                 <div><h:outputText value="#{plantsView.speciesDescription}"/></div>
             </header>
 
-            <h:dataTable value="#{plantsView.plantsModel.plants}" var="plant"
+            <h:dataTable id="plantTable" value="#{plantsView.plantsModel.plants}" var="plant"
                          styleClass="table align-middle mb-0 bg-white" headerClass="bg-light">
                 <h:column>
                     <f:facet name="header">#{msg['data.name']}</f:facet>
@@ -35,7 +35,9 @@
                     <f:facet name="header">#{msg['data.delete']}</f:facet>
                     <h:form>
                         <h:commandButton styleClass="btn" value="#{msg['data.delete']}"
-                                         action="#{plantsView.deletePlant(plant)}"/>
+                        action="#{plantsView.deletePlant(plant)}">
+                        <f:ajax execute="@this" render=":plantTable"/>
+                    </h:commandButton>
                     </h:form>
                 </h:column>
 

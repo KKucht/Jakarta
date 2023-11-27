@@ -7,11 +7,13 @@ import com.example.lab1.gardener.models.jsp.GardenersModel;
 import com.example.lab1.gardener.models.rest.GetGardenerResponse;
 import com.example.lab1.gardener.models.rest.GetGardenersResponse;
 import com.example.lab1.gardener.models.rest.PutGardenerRequest;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@ApplicationScoped
 public class GardenerFactory implements EntityToGetGardenerResponse,
         EntityToGetGardenersResponse,
         PutGardenerRequestToEntity, EntityToGardenerModel, EntityToGardenersModel {

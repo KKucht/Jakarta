@@ -10,7 +10,7 @@
         <article class="text--justified">
             <header><h2>#{msg.header}</h2></header>
 
-            <h:dataTable value="#{allSpeciesView.model.species}" var="species"
+            <h:dataTable id="speciesTable" value="#{allSpeciesView.model.species}" var="species"
                          styleClass="table align-middle mb-0 bg-white" headerClass="bg-light">
 
                 <h:column>
@@ -29,7 +29,9 @@
                     <f:facet name="header">#{msg['data.delete']}</f:facet>
                     <h:form>
                         <h:commandButton styleClass="btn" value="#{msg['data.delete']}"
-                                         action="#{allSpeciesView.deleteSpecies(species)}"/>
+                                action="#{allSpeciesView.deleteSpecies(species)}">
+                            <f:ajax execute="@this" render=":speciesTable"/>
+                        </h:commandButton>
                     </h:form>
                 </h:column>
 

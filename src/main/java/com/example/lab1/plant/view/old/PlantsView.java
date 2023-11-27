@@ -87,13 +87,9 @@ public class PlantsView implements Serializable {
         }
     }
 
-    public String deletePlant(SimplePlantModel model) throws IOException {
+    public void deletePlant(SimplePlantModel model) throws IOException {
         plantService.deletePlant(model.getId());
-        if (speciesId == null) {
-            return "plant_list?faces-redirect=true";
-        } else {
-            return "plant_list?faces-redirect=true&species-id=" + speciesId;
-        }
+        plantsModel = null;
     }
 
 }

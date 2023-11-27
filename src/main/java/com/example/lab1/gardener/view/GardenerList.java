@@ -3,41 +3,47 @@ package com.example.lab1.gardener.view;
 import com.example.lab1.gardener.GardenerService;
 import com.example.lab1.gardener.factory.GardenerFactory;
 import com.example.lab1.gardener.models.jsp.GardenersModel;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.ejb.EJB;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.io.IOException;
+import java.io.Serializable;
 
-@RequestScoped
+@ViewScoped
 @Named
-public class GardenerList {
+public class GardenerList implements Serializable {
 
     private GardenerService service;
 
-    private GardenersModel users;
+    private GardenersModel gardenersModel;
 
     private final GardenerFactory factory;
 
     @Inject
-    public GardenerList(GardenerService service, GardenerFactory factory) {
-        this.service = service;
+    public GardenerList(GardenerFactory factory) {
         this.factory = factory;
     }
 
-    public GardenersModel getGardeners() {
-        if (users == null) {
-            users = factory.getModel(service.getGardeners());
-        }
-        return users;
+    @EJB
+    public void setService(GardenerService service) {
+        this.service = service;
     }
 
-    public String deleteAction(GardenersModel.Gardener gardener) {
+    public GardenersModel getGardeners() {
+        if (gardenersModel == null) {
+            gardenersModel = factory.getModel(service.getGardeners());
+        }
+        return gardenersModel;
+    }
+
+    public void deleteAction(GardenersModel.Gardener gardener) {
         try{
             service.deleteGardener(gardener.getId());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return "gardener_list?faces-redirect=true";
+        gardenersModel = null;
     }
 }

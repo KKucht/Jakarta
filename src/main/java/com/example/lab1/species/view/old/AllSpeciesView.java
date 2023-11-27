@@ -22,7 +22,7 @@ public class AllSpeciesView implements Serializable {
     private final SpeciesFactory factory;
 
     @Inject
-    public AllSpeciesView(SpeciesService service, SpeciesFactory factory) {
+    public AllSpeciesView(SpeciesFactory factory) {
         this.factory = factory;
     }
 
@@ -38,9 +38,14 @@ public class AllSpeciesView implements Serializable {
         return model;
     }
 
-    public String deleteSpecies(SimpleSpeciesModel model) throws IOException {
-        service.deleteSpecies(model.getId());
-        return "species_list?faces-redirect=true";
+    public void deleteSpecies(SimpleSpeciesModel model) {
+        try{
+            service.deleteSpecies(model.getId());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        model = null;
     }
 
 }
