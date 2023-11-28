@@ -45,7 +45,7 @@ public class AllSpeciesView implements Serializable {
             throw new RuntimeException(e);
         }
 
-        model = null;
+        this.model = null;
     }
 
 }
